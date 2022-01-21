@@ -1,0 +1,17 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: apidocs
+  labels:
+    app: apidocs
+spec:
+  type: ClusterIP
+  selector:
+    app: apidocs
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP

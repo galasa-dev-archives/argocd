@@ -1,0 +1,19 @@
+#
+# Copyright contributors to the Galasa project 
+#
+{{ if eq .Values.endRepositoriesOnly false }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: maven-framework
+  labels:
+    app: maven-framework
+spec:
+  type: ClusterIP
+  selector:
+    app: maven-framework
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+{{ end }}

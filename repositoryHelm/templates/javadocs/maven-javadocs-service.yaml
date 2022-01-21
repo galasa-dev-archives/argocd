@@ -1,0 +1,17 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: maven-javadocs
+  labels:
+    app: maven-javadocs
+spec:
+  type: ClusterIP
+  selector:
+    app: maven-javadocs
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
