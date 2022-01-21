@@ -1,31 +1,32 @@
 #
 # Copyright contributors to the Galasa project 
 #
+{{- if .Values.endRepositoriesOnly }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: binary-cli
+  name: maven-gradle
+  labels:
+    app: maven-gradle
 spec:
   replicas: {{ .Values.replicas.standard }}
-  revisionHistoryLimit: 0
   selector:
     matchLabels:
-      app: binary-cli
-  strategy:
-    type: RollingUpdate
+      app: maven-gradle
   template:
-    metadata:
-      labels:
-        app: binary-cli
+    labels:
+      app: maven-gradle
     spec:
       nodeSelector:
         kubernetes.io/arch: amd64
       containers:
-      - name: http
-        image: {{ .Values.registry }}/galasadev/galasa-cli-binary:{{ .Values.branch }}
+      - name: maven-gradle
+        image: {{ .Values.registry }}/galasadev/galasa-maven-gradle:{{ .Values.branch }}
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - name: http
+          containerPort: 80
+          protocol: TCP
         resources:
           requests:
             memory: 50Mi
@@ -39,5 +40,6 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - binary-cli
+                  - maven-gradle
               topologyKey: kubernetes.io/hostname
+{{- end }}

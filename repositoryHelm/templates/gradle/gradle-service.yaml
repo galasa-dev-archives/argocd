@@ -1,15 +1,19 @@
 #
 # Copyright contributors to the Galasa project 
 #
+{{- if .Values.endRepositoriesOnly }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: binary-cli
+  name: maven-gradle
+  labels:
+    app: maven-gradle
 spec:
   type: ClusterIP
   selector:
-    app: binary-cli
+    app: maven-gradle
   ports:
   - port: 80
     targetPort: 80
     protocol: TCP
+{{- end }}

@@ -8,3 +8,5 @@ registry: harbor-cicsk8s.hursley.ibm.com
 replicas:
   important: 2
   standard: 1
+
+endRepositoriesOnly: false
