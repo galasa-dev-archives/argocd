@@ -8,7 +8,7 @@ metadata:
   labels:
     app: maven-obr
 spec:
-  replicas: {{ .Values.replicas.standard }}
+  replicas: {{ .Values.replicas.important }}
   revisionHistoryLimit: 0
   selector:
     matchLabels:
