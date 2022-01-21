@@ -13,7 +13,7 @@ spec:
     type: string
   - name: dockerRepo
     type: string
-    default: {{ .Values.registry }}
+    default: {{ .Values.dockerRegistry }}
   steps:
   - name: start-recycle
     image: $(params.dockerRepo)/galasadev/galasa-build
