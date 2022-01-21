@@ -5,7 +5,6 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: framework-repo-build
-  namespace: galasa-tekton
 spec:
   workspaces:
   - name: git-workspace
