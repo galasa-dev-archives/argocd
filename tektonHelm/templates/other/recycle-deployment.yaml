@@ -1,0 +1,37 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: recycle-deployment
+spec:
+  params:
+  - name: namespace
+    type: string
+  - name: deployment
+    type: string
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.registry }}
+  steps:
+  - name: start-recycle
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - kubectl
+    - -n
+    - $(params.namespace)
+    - rollout
+    - restart
+    - deployment/$(params.deployment)
+  - name: wait-recycle
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - kubectl
+    - -n
+    - $(params.namespace)
+    - rollout
+    - status
+    - deployment/$(params.deployment)
+    - -w
+    - --timeout=3m
