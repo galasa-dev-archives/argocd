@@ -3,4 +3,5 @@
 #
 branch: main
 
-registry: harbor-cicsk8s.hursley.ibm.com
+dockerRegistry: harbor-cicsk8s.hursley.ibm.com
+mavenProxy: https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/
