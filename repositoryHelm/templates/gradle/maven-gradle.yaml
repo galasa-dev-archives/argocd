@@ -1,7 +1,7 @@
 #
 # Copyright contributors to the Galasa project 
 #
-{{- if .Values.endRepositoriesOnly }}
+{{ if eq .Values.endRepositoriesOnly false }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -10,12 +10,14 @@ metadata:
     app: maven-gradle
 spec:
   replicas: {{ .Values.replicas.standard }}
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app: maven-gradle
   template:
-    labels:
-      app: maven-gradle
+    metadata:
+      labels:
+        app: maven-gradle
     spec:
       nodeSelector:
         kubernetes.io/arch: amd64
@@ -42,4 +44,4 @@ spec:
                   values:
                   - maven-gradle
               topologyKey: kubernetes.io/hostname
-{{- end }}
+{{ end }}
