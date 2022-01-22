@@ -18,5 +18,5 @@ spec:
             name: maven-javadocs
             port:
               number: 80
-        path: /{{ .Values.branch}}/maven/javadocs
+        path: /{{ .Values.branch}}/maven/javadoc
         pathType: Prefix
