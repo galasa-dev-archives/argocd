@@ -18,5 +18,5 @@ spec:
             name: maven-eclipse
             port:
               number: 80
-        path: /{{ .Values.branch}}/binary/cli
+        path: /{{ .Values.branch}}/maven/eclipse
         pathType: Prefix

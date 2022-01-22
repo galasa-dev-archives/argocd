@@ -18,5 +18,5 @@ spec:
             name: p2-eclipse
             port:
               number: 80
-        path: /{{ .Values.branch}}/binary/cli
+        path: /{{ .Values.branch}}/p2
         pathType: Prefix
