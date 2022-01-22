@@ -112,7 +112,7 @@ spec:
     - name: distBranch
       value: $(params.distBranch)
     - name: simplatformSourceRepo
-      value: https://galasadev-cicsk8s.hursley.ibm.com/${params.simplatformBranch}/maven/simplatform/
+      value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.simplatformBranch)/maven/simplatform/
     - name: mavenCentralRepo
       value: https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/
     - name: runtimeSourceRepo
