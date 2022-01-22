@@ -1,0 +1,29 @@
+#
+# Copyright contributors to the Galasa project 
+#
+kind: PipelineRun
+apiVersion: tekton.dev/v1beta1
+metadata:
+  generateName: main-managers-
+spec:
+  params:
+  pipelineRef:
+    name: managers-repo-build
+  podTemplate:
+    volumes:
+    - name: gpggradle
+      secret:
+        secretName: gpggradle
+    - name: gpgkey
+      secret:
+        secretName: gpgkey
+  workspaces:
+  - name: git-workspace
+    volumeClaimTemplate:
+      spec:
+        storageClassName: longhorn-temp
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
