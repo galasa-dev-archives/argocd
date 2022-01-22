@@ -40,6 +40,8 @@ spec:
   - name: clone-extensions
     taskRef: 
       name: git-clone
+    runAfter:
+    - clone-framework
     params:
     - name: url
       value: https://github.com/galasa-dev/extensions
@@ -55,6 +57,8 @@ spec:
   - name: clone-managers
     taskRef: 
       name: git-clone
+    runAfter:
+    - clone-extensions
     params:
     - name: url
       value: https://github.com/galasa-dev/managers
@@ -70,6 +74,8 @@ spec:
   - name: clone-obr
     taskRef: 
       name: git-clone
+    runAfter:
+    - clone-managers
     params:
     - name: url
       value: https://github.com/galasa-dev/obr
@@ -87,6 +93,8 @@ spec:
   - name: clone-docker
     taskRef: 
       name: git-clone
+    runAfter:
+    - clone-obr
     params:
     - name: url
       value: https://github.com/galasa-dev/docker
