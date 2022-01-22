@@ -107,7 +107,7 @@ spec:
     - name: namespace
       value: galasa-branch-$(params.distBranch)
     - name: deployment
-      value: maven-javadoc
+      value: maven-javadocs
     runAfter:
     - javadoc-build
     taskRef:
