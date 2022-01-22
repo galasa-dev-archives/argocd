@@ -1,0 +1,298 @@
+#
+# Licensed Materials - Property of IBM
+# 
+# (c) Copyright IBM Corp. 2021.
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: snapshot-galasa
+spec:
+  workspaces:
+  - name: git-workspace
+  params:
+  - name: distBranch
+    type: string
+  - name: refspec
+    type: string
+    default: +refs/heads/{{ .Values.branch }}:refs/heads/{{ .Values.branch }}
+  - name: oldBranch
+    type: string
+    default: {{ .Values.branch }}
+#
+#
+#
+  tasks:
+#
+#
+#
+  - name: clone-argocd
+    taskRef: 
+      name: git-clone
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/argocd
+    - name: revision
+      value: $(params.oldBranch)
+    - name: refspec
+      value: $(params.refspec)
+    - name: depth
+      value: "1"
+    - name: subdirectory
+      value: maven
+    workspaces:
+     - name: output
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-obr
+    taskRef:
+      name: snapshot-repo
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-maven-obr
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: recycle-obr
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - snapshot-obr
+    params:
+    - name: namespace
+      value: $(params.distBranch)
+    - name: deployment
+      value: maven-obr
+#
+#
+#
+  - name: snapshot-mvp
+    taskRef:
+      name: snapshot-repo
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-maven-mvp
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: recycle-mvp
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - snapshot-mvp
+    params:
+    - name: namespace
+      value: $(params.distBranch)
+    - name: deployment
+      value: maven-mvp
+#
+#
+#
+  - name: snapshot-isolated
+    taskRef:
+      name: snapshot-repo
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-maven-isolated
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: recycle-isolated
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - snapshot-isolated
+    params:
+    - name: namespace
+      value: $(params.distBranch)
+    - name: deployment
+      value: maven-isolated
+#
+#
+#
+  - name: snapshot-javadocs
+    taskRef:
+      name: snapshot-repo
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-maven-javadoc
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: recycle-javadocs
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - snapshot-javadocs
+    params:
+    - name: namespace
+      value: $(params.distBranch)
+    - name: deployment
+      value: maven-javadocs
+#
+#
+#
+  - name: snapshot-eclipse
+    taskRef:
+      name: snapshot-repo
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-maven-eclipse
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: recycle-eclipse
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - snapshot-eclipse
+    params:
+    - name: namespace
+      value: $(params.distBranch)
+    - name: deployment
+      value: maven-eclipse
+#
+#
+#
+  - name: snapshot-p2
+    taskRef:
+      name: snapshot-repo
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-p2
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: recycle-p2
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - snapshot-p2
+    params:
+    - name: namespace
+      value: $(params.distBranch)
+    - name: deployment
+      value: p2-eclipse
+#
+#
+#
+  - name: snapshot-apidocs
+    taskRef:
+      name: snapshot-repo
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-javadocs
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: recycle-apidocs
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - snapshot-apidocs
+    params:
+    - name: namespace
+      value: $(params.distBranch)
+    - name: deployment
+      value: apidocs
+#
+#
+#
+  - name: snapshot-boot-embedded
+    taskRef:
+      name: snapshot-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-boot-embedded-amd64
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-ibm-boot-embedded
+    taskRef:
+      name: snapshot-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-ibm-boot-embedded-amd64
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
