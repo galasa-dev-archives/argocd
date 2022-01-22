@@ -1,7 +1,6 @@
 #
 # Copyright contributors to the Galasa project 
 #
-{{ if eq .Values.endRepositoriesOnly false }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,4 +43,3 @@ spec:
                   values:
                   - maven-inttests
               topologyKey: kubernetes.io/hostname
-{{ end }}
