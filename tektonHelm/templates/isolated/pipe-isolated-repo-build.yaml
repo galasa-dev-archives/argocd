@@ -146,8 +146,6 @@ spec:
     - clone-extensions
     - clone-managers
     - clone-isolated
-# single thread the builds whilst running smaller k8s
-    - isolated-build
     params:
     - name: distBranch
       value: $(params.distBranch)
