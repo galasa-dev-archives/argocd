@@ -39,7 +39,7 @@ spec:
     - name: depth
       value: "1"
     - name: subdirectory
-      value: maven
+      value: argocd
     workspaces:
      - name: output
        workspace: git-workspace
