@@ -499,7 +499,7 @@ spec:
     - name: distBranch
       value: $(params.distBranch)
     - name: simplatformSourceRepo
-      value: https://galasadev-cicsk8s.hursley.ibm.com/${params.simplatformBranch}/maven/simplatform/
+      value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.simplatformBranch)/maven/simplatform/
     - name: runtimeSourceRepo
       value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/obr/
     - name: eclipseSourceRepo
@@ -542,7 +542,7 @@ spec:
     - name: distBranch
       value: $(params.distBranch)
     - name: simplatformSourceRepo
-      value: https://galasadev-cicsk8s.hursley.ibm.com/${params.simplatformBranch}/maven/simplatform/
+      value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.simplatformBranch)/maven/simplatform/
     - name: runtimeSourceRepo
       value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/obr/
     - name: eclipseSourceRepo
