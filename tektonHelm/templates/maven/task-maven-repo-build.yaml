@@ -15,7 +15,7 @@ spec:
   - name: mavenCentralRepo
     type: string
     default: {{ .Values.mavenProxy }}
-  - name: extensionsSourceRepo
+  - name: mavenSourceRepo
     type: string
     default: {{ .Values.mavenProxy }}
   - name: dockerRepo
