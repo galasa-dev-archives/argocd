@@ -33,9 +33,9 @@ spec:
     - name: url
       value: https://github.com/galasa-dev/argocd
     - name: revision
-      value: $(params.oldBranch)
+      value: main
     - name: refspec
-      value: $(params.refspec)
+      value: +refs/heads/main:refs/heads/main
     - name: depth
       value: "1"
     - name: subdirectory
