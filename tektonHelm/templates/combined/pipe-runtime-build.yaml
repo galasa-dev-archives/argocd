@@ -215,7 +215,7 @@ spec:
       value: maven-obr
   - name: obr-embedded
     taskRef:
-      name: obr-generic-build
+      name: obr-docker-build
     runAfter:
     - recycle-obr
     - clone-docker

@@ -11,7 +11,7 @@ metadata:
 spec:
   params:
   pipelineRef:
-    name: complete-build
+    name: runtime-build
   podTemplate:
     volumes:
     - name: mavengpg
