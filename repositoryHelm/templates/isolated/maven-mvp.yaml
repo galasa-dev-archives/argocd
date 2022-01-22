@@ -1,0 +1,45 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maven-mvp
+  labels:
+    app: maven-mvp
+spec:
+  replicas: {{ .Values.replicas.important }}
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: maven-mvp
+  template:
+    metadata:
+      labels:
+        app: maven-mvp
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      containers:
+      - name: maven-mvp
+        image: {{ .Values.registry }}/galasadev/galasa-maven-mvp:{{ .Values.branch }}
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        resources:
+          requests:
+            memory: 50Mi
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - maven-mvp
+              topologyKey: kubernetes.io/hostname
