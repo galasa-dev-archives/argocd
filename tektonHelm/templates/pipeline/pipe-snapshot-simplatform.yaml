@@ -63,7 +63,7 @@ spec:
     taskRef:
       name: recycle-deployment
     runAfter:
-    - snapshot-inttests
+    - snapshot-simplatform
     params:
     - name: namespace
       value: galasa-branch-$(params.distBranch)
