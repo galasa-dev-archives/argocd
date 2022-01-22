@@ -4,22 +4,16 @@
 kind: PipelineRun
 apiVersion: tekton.dev/v1beta1
 metadata:
-  generateName: main-managers-
-  annotations:
-    argocd.argoproj.io/compare-options: IgnoreExtraneous
-    argocd.argoproj.io/sync-options: Prune=false
+  generateName: main-javadoc-
 spec:
   params:
   pipelineRef:
-    name: managers-repo-build
+    name: javadoc-build
   podTemplate:
     volumes:
-    - name: gpggradle
+    - name: mavengpg
       secret:
-        secretName: gpggradle
-    - name: gpgkey
-      secret:
-        secretName: gpgkey
+        secretName: mavengpg
   workspaces:
   - name: git-workspace
     volumeClaimTemplate:
