@@ -12,6 +12,9 @@ spec:
   - name: distBranch
     type: string
     default: {{ .Values.branch }}
+  - name: simplatformBranch
+    type: string
+    default: {{ .Values.simplatformBranch }}
   - name: refspec
     type: string
     default: +refs/heads/{{ .Values.branch }}:refs/heads/{{ .Values.branch }}
@@ -109,7 +112,7 @@ spec:
     - name: distBranch
       value: $(params.distBranch)
     - name: simplatformSourceRepo
-      value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/simplatform/
+      value: https://galasadev-cicsk8s.hursley.ibm.com/${params.simplatformBranch}/maven/simplatform/
     - name: mavenCentralRepo
       value: https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/
     - name: runtimeSourceRepo

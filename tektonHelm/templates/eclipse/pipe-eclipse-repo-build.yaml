@@ -12,6 +12,9 @@ spec:
   - name: distBranch
     type: string
     default: {{ .Values.branch }}
+  - name: simplatformBranch
+    type: string
+    default: {{ .Values.simplatformBranch }}
   - name: refspec
     type: string
     default: +refs/heads/{{ .Values.branch }}:refs/heads/{{ .Values.branch }}
@@ -47,7 +50,7 @@ spec:
     - name: eclipseRepo
       value: https://nexus.cics-ts.hur.hdclab.intranet.ibm.com/repository/photon/
     - name: simplatformSourceRepo
-      value: https://galasadev-cicsk8s.hursley.ibm.com/main/maven/simplatform/
+      value: https://galasadev-cicsk8s.hursley.ibm.com/${params.simplatformBranch}/maven/simplatform/
     - name: runtimeSourceRepo
       value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/obr/
     - name: noPush
