@@ -18,5 +18,5 @@ spec:
             name: apidocs
             port:
               number: 80
-        path: /{{ .Values.branch}}/apidocs
+        path: /{{ .Values.branch}}/javadoc
         pathType: Prefix
