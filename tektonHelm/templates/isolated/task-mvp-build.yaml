@@ -1,0 +1,313 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: mvp-build
+spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+  params:
+  - name: distBranch
+    type: string
+  - name: mavenCentralRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
+  - name: runtimeSourceRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
+  - name: simplatformSourceRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
+  - name: eclipseSourceRepo
+    type: string
+    default: http://download.eclipse.org/releases/photon
+  - name: javadocSourceRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
+  - name: docsSourceRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+  - name: mavenBaseVersion
+    type: string
+    default: {{ .Values.mavenRepoBaseImageVersion }}
+  - name: noPush
+    type: string
+    default: ""
+  steps:
+  - name: generate-pom
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - galasabld 
+    - template 
+    - --releaseMetadata
+    - /workspace/git/framework/release.yaml 
+    - --releaseMetadata
+    - /workspace/git/extensions/release.yaml 
+    - --releaseMetadata
+    - /workspace/git/managers/release.yaml 
+    - --releaseMetadata
+    - /workspace/git/obr/release.yaml 
+    - --template
+    - pom.template 
+    - --output
+    - pom.xml 
+    - --mvp
+  - name: maven-build-mvp1
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.target.repo=file:target/isolated/maven
+    - -Dgalasa.runtime.repo=$(params.runtimeSourceRepo)
+    - -Dgalasa.simplatform.repo=$(params.simplatformSourceRepo)
+    - -Dgalasa.javadoc.repo=$(params.javadocSourceRepo)
+    - -Dgalasa.docs.repo=$(params.docsSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - -Dgalasa.eclipse.repo=$(params.eclipseSourceRepo)
+    - --settings
+    - /workspace/git/isolated/settings.xml
+    - -B
+    - -e
+    - -fae
+    - -f
+    - pom2.xml
+    - process-sources
+  - name: maven-build-mvp2
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.target.repo=file:target/isolated/maven
+    - -Dgalasa.runtime.repo=$(params.runtimeSourceRepo)
+    - -Dgalasa.simplatform.repo=$(params.simplatformSourceRepo)
+    - -Dgalasa.javadoc.repo=$(params.javadocSourceRepo)
+    - -Dgalasa.docs.repo=$(params.docsSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - -Dgalasa.eclipse.repo=$(params.eclipseSourceRepo)
+    - --settings
+    - /workspace/git/isolated/settings.xml
+    - -B
+    - -e
+    - -fae
+    - -f
+    - pom.xml
+    - process-sources
+  - name: maven-build-mvp3
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.target.repo=file:target/isolated/maven
+    - -Dgalasa.runtime.repo=$(params.runtimeSourceRepo)
+    - -Dgalasa.simplatform.repo=$(params.simplatformSourceRepo)
+    - -Dgalasa.javadoc.repo=$(params.javadocSourceRepo)
+    - -Dgalasa.docs.repo=$(params.docsSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - -Dgalasa.eclipse.repo=$(params.eclipseSourceRepo)
+    - --settings
+    - /workspace/git/isolated/settings.xml
+    - -B
+    - -e
+    - -fae
+    - -f
+    - pom3.xml
+    - process-sources
+  - name: maven-build-mvp4
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.target.repo=file:target/isolated/maven
+    - -Dgalasa.runtime.repo=$(params.runtimeSourceRepo)
+    - -Dgalasa.simplatform.repo=$(params.simplatformSourceRepo)
+    - -Dgalasa.javadoc.repo=$(params.javadocSourceRepo)
+    - -Dgalasa.docs.repo=$(params.docsSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - -Dgalasa.eclipse.repo=$(params.eclipseSourceRepo)
+    - --settings
+    - /workspace/git/isolated/settings.xml
+    - -B
+    - -e
+    - -fae
+    - -f
+    - pom4.xml
+    - process-sources
+  - name: maven-build-mvp5
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.target.repo=file:target/isolated/maven
+    - -Dgalasa.runtime.repo=$(params.runtimeSourceRepo)
+    - -Dgalasa.simplatform.repo=$(params.simplatformSourceRepo)
+    - -Dgalasa.javadoc.repo=$(params.javadocSourceRepo)
+    - -Dgalasa.docs.repo=$(params.docsSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - -Dgalasa.eclipse.repo=$(params.eclipseSourceRepo)
+    - --settings
+    - /workspace/git/isolated/settings.xml
+    - -B
+    - -e
+    - -fae
+    - -f
+    - pom5.xml
+    - process-sources
+  - name: maven-build-mvp6
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.target.repo=file:target/isolated/maven
+    - -Dgalasa.runtime.repo=$(params.runtimeSourceRepo)
+    - -Dgalasa.simplatform.repo=$(params.simplatformSourceRepo)
+    - -Dgalasa.javadoc.repo=$(params.javadocSourceRepo)
+    - -Dgalasa.docs.repo=$(params.docsSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - -Dgalasa.eclipse.repo=$(params.eclipseSourceRepo)
+    - --settings
+    - /workspace/git/isolated/settings.xml
+    - -B
+    - -e
+    - -fae
+    - -f
+    - pom6.xml
+    - process-sources
+  - name: maven-build-javadoc
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.target.repo=file:target/isolated/maven
+    - -Dgalasa.runtime.repo=$(params.runtimeSourceRepo)
+    - -Dgalasa.simplatform.repo=$(params.simplatformSourceRepo)
+    - -Dgalasa.javadoc.repo=$(params.javadocSourceRepo)
+    - -Dgalasa.docs.repo=$(params.docsSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - -Dgalasa.eclipse.repo=$(params.eclipseSourceRepo)
+    - --settings
+    - /workspace/git/isolated/settings.xml
+    - -B
+    - -e
+    - -fae
+    - -f
+    - pomJavaDoc.xml
+    - process-sources
+  - name: maven-build-docs
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.target.repo=file:target/isolated/maven
+    - -Dgalasa.runtime.repo=$(params.runtimeSourceRepo)
+    - -Dgalasa.simplatform.repo=$(params.simplatformSourceRepo)
+    - -Dgalasa.javadoc.repo=$(params.javadocSourceRepo)
+    - -Dgalasa.docs.repo=$(params.docsSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - -Dgalasa.eclipse.repo=$(params.eclipseSourceRepo)
+    - --settings
+    - /workspace/git/isolated/settings.xml
+    - -B
+    - -e
+    - -fae
+    - -f
+    - pomDocs.xml
+    - process-sources
+  - name: copy-text-files
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    script: |
+      #!/bin/sh
+      set +e
+      cp -vr resources/* target/isolated/
+  - name: docker-build-mvp-image
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/isolated/mvp
+    - --destination=$(params.dockerRepo)/galasadev/galasa-mvp:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git/isolated/mvp/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
+  - name: docker-tar-mvp-image
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --no-push
+    - --tarPath
+    - /workspace/git/isolated/mvp/target/isolated/isolated.tar
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/isolated/mvp
+    - --destination=galasadev/galasa-distribution:latest
+    - --oci-layout-path=/workspace/git/isolated/mvp/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
+  - name: maven-build-mvp-zip
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.release.repo=file:/workspace/git/isolated/mvp/repo
+    - -Dgalasa.runtime.repo=$(params.runtimeSourceRepo)
+    - -Dgalasa.simplatform.repo=$(params.simplatformSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - -Dgalasa.eclipse.repo=$(params.eclipseSourceRepo)
+    - --settings
+    - /workspace/git/isolated/settings.xml
+    - -B
+    - -e
+    - -fae
+    - -f
+    - pomZip.xml
+    - deploy
+  - name: docker-build-mvp-maven-image
+    workingDir: /workspace/git/isolated/mvp
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./DockerfileZip
+    - --context=/workspace/git/isolated/mvp
+    - --destination=$(params.dockerRepo)/galasadev/galasa-maven-mvp:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git/isolated/mvp/image-maven-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=dockerRepository=$(params.dockerRepo)
+    - --build-arg=baseVersion=$(params.mavenBaseVersion)
+    - --build-arg=branch=$(params.distBranch)
