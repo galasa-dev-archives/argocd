@@ -5,6 +5,8 @@ branch: main
 
 simplatformBranch: prod
 
+managersBranch: prod
+
 mavenRepoBaseImageVersion: 0.16.0
 
 dockerRegistry: harbor-cicsk8s.hursley.ibm.com
