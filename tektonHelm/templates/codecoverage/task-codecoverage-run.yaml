@@ -9,6 +9,9 @@ spec:
   workspaces:
   - name: git-workspace
     mountPath: /workspace/git
+#
+#
+#
   params:
   - name: distBranch
     type: string
@@ -21,7 +24,71 @@ spec:
   - name: dockerRepo
     type: string
     default: {{ .Values.dockerRegistry }}
+#
+#
+#
   steps:
+#
+# Get all the sources and classes for all bundles marked for copyright checking in the release.yaml
+#
+  - name: generate-pom-sources
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    workingDir: /workspace
+    command:
+    - galasabld
+    - template
+    - --releaseMetadata
+    - /workspace/git/framework/release.yaml
+    - --releaseMetadata
+    - /workspace/git/extensions/release.yaml
+    - --releaseMetadata
+    - /workspace/git/managers/release.yaml
+    - --releaseMetadata
+    - /workspace/git/obr/release.yaml
+    - --template
+    - /workspace/git/obr/codecoveragetemplates/pomfetch.template
+    - --output
+    - pom.xml
+    - --codecoverage
+#
+# TEMP - lets see what was templated
+#
+  - name: cattemplate
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - cat
+    - pom.xml
+#
+# Perform the actual fetch
+#
+  - name: fetch-maven-artifacts
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    workingDir: /workspace
+    command:
+    - mvn
+    - -Dgalasa.source.repo=$(params.managersSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - --settings
+    - pom.xml
+    - -B
+    - -e
+    - -fae
+    - process-sources
+    resources: {}
+#
+# TEMP - Make sure target is populated
+#
+  - name: lstarget
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - ls
+    - -l
+    - target
+#
+# Run the codecoverage tests in Galasa
+#
   - name: run-tests
     workingDir: /workspace
     image: $(params.dockerRepo)/galasadev/galasa-cli-ibm-amd64:{{ .Values.cliVersion }}
@@ -65,55 +132,12 @@ spec:
     - zos.dse.tag.PRIMARY.imageid=MV2D
     - --override
     - zos.dse.tag.PRIMARY.clusterid=PLEX2
+#
+# TEMP - See the results
+#
   - name: catresults
     workingDir: /workspace
     image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
     command:
     - cat
     - tests.yaml
-  - name: generate-pom-sources
-    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
-    workingDir: /workspace
-    command:
-    - galasabld
-    - template
-    - --releaseMetadata
-    - /workspace/git/framework/release.yaml
-    - --releaseMetadata
-    - /workspace/git/extensions/release.yaml
-    - --releaseMetadata
-    - /workspace/git/managers/release.yaml
-    - --releaseMetadata
-    - /workspace/git/obr/release.yaml
-    - --template
-    - /workspace/git/obr/codecoveragetemplates/pom.template
-    - --output
-    - pom.xml
-    - --codecoverage
-  - name: cattemplate
-    workingDir: /workspace
-    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
-    command:
-    - cat
-    - pom.xml
-  - name: fetch-maven-artifacts
-    image: $(params.dockerRepo)/galasadev/galasa-build
-    workingDir: /workspace
-    command:
-    - mvn
-    - -Dgalasa.source.repo=$(params.managersSourceRepo)
-    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
-    - --settings
-    - pom.xml
-    - -B
-    - -e
-    - -fae
-    - process-sources
-    resources: {}
-  - name: lstarget
-    workingDir: /workspace
-    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
-    command:
-    - ls
-    - -l
-    - target
