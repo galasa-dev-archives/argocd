@@ -169,11 +169,28 @@ spec:
 
       java -jar target/org.jacoco.cli.jar report target/image/unit/jacoco.exec --classfiles target/classes --sourcefiles target/sources --name 'Galasa CC Unit only' --html target/image/unit/ --xml target/image/unit/jacoco.xml
 #
-# TEMP - Make sure target is populated
+# Build Unit test view
 #
-  - name: lshtml
-    workingDir: /workspace/target/image/unit/
+  - name: build-integrated-tests
+    workingDir: /workspace
     image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
-    command:
-    - ls
-    - -l
+    script: |
+      set -e
+      mkdir -p target/image/integrated
+
+      java -jar target/org.jacoco.cli.jar merge target/inttests/dev.galasa.inttests/*.exec --destfile target/image/integrated/jacoco.exec
+
+      java -jar target/org.jacoco.cli.jar report target/image/integrated/jacoco.exec --classfiles target/classes --sourcefiles target/sources --name 'Galasa CC Integrated only' --html target/image/integrated/ --xml target/image/integrated/jacoco.xml
+#
+# Build Unit test view
+#
+  - name: build-combined-tests
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    script: |
+      set -e
+      mkdir -p target/image/combined
+
+      java -jar target/org.jacoco.cli.jar merge target/image/unit/jacoco.exec target/image/integrated/jacoco.exec --destfile target/image/combined/jacoco.exec
+
+      java -jar target/org.jacoco.cli.jar report target/image/combined/jacoco.exec --classfiles target/classes --sourcefiles target/sources --name 'Galasa CC Combined' --html target/image/combined/ --xml target/image/combined/jacoco.xml
