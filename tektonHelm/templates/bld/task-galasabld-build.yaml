@@ -33,7 +33,7 @@ spec:
       value: /tekton/creds/.docker
     command:
     - /kaniko/executor
-    - --dockerfile=./DockerfileHttp
+    - --dockerfile=./Dockerfile
     - --context=/workspace/git/buildutils
     - --destination=$(params.dockerRepo)/galasadev/galasa-bld-binary:$(params.distBranch)
     - $(params.noPush)
