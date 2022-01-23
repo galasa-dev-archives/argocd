@@ -148,7 +148,7 @@ spec:
     image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
     command:
     - galasabld
-    - jacacofetch
+    - jacocofetch
     - --results 
     - tests.yaml 
     - --output
