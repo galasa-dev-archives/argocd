@@ -76,16 +76,6 @@ spec:
     - -fae
     - process-sources
 #
-# TEMP - Make sure target is populated
-#
-  - name: lstarget
-    workingDir: /workspace
-    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
-    command:
-    - ls
-    - -l
-    - target
-#
 # Run the codecoverage tests in Galasa
 #
   - name: run-tests
@@ -141,7 +131,7 @@ spec:
     - cat
     - tests.yaml
 #
-# TEMP - See the results
+# Fetch all the jacoco exec files
 #
   - name: fetchexecs
     workingDir: /workspace
@@ -155,3 +145,35 @@ spec:
     - target/inttests
     - --execs
     - https://nexus.galasa.dev/repository/jacoco/codecov/execs  
+#
+# TEMP - Make sure target is populated
+#
+  - name: lsexecs
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - ls
+    - -l
+    - target/inttests
+#
+# Build Unit test view
+#
+  - name: build-unit-tests
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    script: |
+      set -e
+      mkdir -p target/image/unit
+
+      java -jar target/org.jacoco.cli.jar merge target/unittests/*.exec --destfile target/image/unit/jacoco.exec
+
+      java -jar target/org.jacoco.cli.jar report target/image/unit/jacoco.exec --classfiles target/classes --sourcefiles target/sources --name 'Galasa CC Unit only' --html target/image/unit/ --xml target/image/unit/jacoco.xml
+#
+# TEMP - Make sure target is populated
+#
+  - name: lsexecs
+    workingDir: /workspace/target/image/unit/
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - ls
+    - -l
