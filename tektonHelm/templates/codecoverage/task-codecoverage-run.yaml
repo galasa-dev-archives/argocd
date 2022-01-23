@@ -108,13 +108,13 @@ spec:
     - tests.yaml
 #
     - --override
-    - galasaecosystem.runtime.repository=http://galasadev-cicsk8s.hursley.ibm.com/codecov/maven/obr
+    - galasaecosystem.runtime.repository=http://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/obr
     - --override
     - galasaecosystem.docker.version=codecov
     - --override
     - java.jacoco.code.coverage=true
     - --override
-    - java.jacoco.save.location=https://nexus.galasa.dev/repository/jacoco/codecov/execs
+    - java.jacoco.save.location=https://nexus.galasa.dev/repository/$(params.distBranch)/codecov/execs
     - --override
     - java.jacoco.save.credentials=JACOCO
     - --override
@@ -144,7 +144,7 @@ spec:
     - --output
     - target/inttests
     - --execs
-    - https://nexus.galasa.dev/repository/jacoco/codecov/execs  
+    - https://nexus.galasa.dev/repository/jacoco/$(params.distBranch)/execs  
 #
 # TEMP - Make sure target is populated
 #
@@ -222,5 +222,5 @@ spec:
     - --skip-tls-verify-pull
     - --single-snapshot
     - --verbosity=info
-    - --build-arg=dockerRepository=$(params.dockerRepo)
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
     - --build-arg=branch=$(params.distBranch)
