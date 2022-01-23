@@ -43,7 +43,7 @@ spec:
 #
   - name: snapshot-galasactl
     taskRef:
-      name: snapshot-generic
+      name: snapshot-repo
     runAfter:
     - clone-argocd
     params:
