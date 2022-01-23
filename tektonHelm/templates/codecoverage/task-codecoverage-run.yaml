@@ -21,6 +21,8 @@ spec:
     - runs
     - submit
 #
+    - --stream
+    - inttests
     - --tag
     - codecoverage
     - --trace
