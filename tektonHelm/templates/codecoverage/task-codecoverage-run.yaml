@@ -14,7 +14,7 @@ spec:
     default: {{ .Values.dockerRegistry }}
   steps:
   - name: check-cli-version
-    workingDir: /workspace/git/extensions
+    workingDir: /workspace
     image: $(params.dockerRepo)/galasadev/galasa-cli-amd64:{{ .Values.cliVersion }}
     command:
     - galasactl
