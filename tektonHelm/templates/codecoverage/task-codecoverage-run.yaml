@@ -154,7 +154,7 @@ spec:
     command:
     - ls
     - -l
-    - target/inttests
+    - target/inttests/dev.galasa.inttests
 #
 # Build Unit test view
 #
@@ -202,7 +202,7 @@ spec:
     image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
     script: |
       set -e
-      cp -v git/obr/codecoveragetemplates/* workspace/target/
+      cp -v git/obr/codecoveragetemplates/* target/
 #
 # Build docker image
 #
