@@ -217,7 +217,6 @@ spec:
     - --dockerfile=./Dockerfile
     - --context=/workspace/target
     - --destination=$(params.dockerRepo)/galasadev/galasa-codecoverage:$(params.distBranch)
-    - $(params.noPush)
     - --oci-layout-path=/workspace/git/eclipse/docker/image-digest
     - --skip-tls-verify
     - --skip-tls-verify-pull
