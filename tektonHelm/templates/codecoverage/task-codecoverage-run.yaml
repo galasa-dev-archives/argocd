@@ -171,7 +171,7 @@ spec:
 #
 # TEMP - Make sure target is populated
 #
-  - name: lsexecs
+  - name: lshtml
     workingDir: /workspace/target/image/unit/
     image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
     command:
