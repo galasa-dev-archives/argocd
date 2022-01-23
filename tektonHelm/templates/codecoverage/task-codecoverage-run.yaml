@@ -114,7 +114,7 @@ spec:
     - --override
     - java.jacoco.code.coverage=true
     - --override
-    - java.jacoco.save.location=https://nexus.galasa.dev/repository/$(params.distBranch)/codecov/execs
+    - java.jacoco.save.location=https://nexus.galasa.dev/repository/jacoco/$(params.distBranch)/execs
     - --override
     - java.jacoco.save.credentials=JACOCO
     - --override
