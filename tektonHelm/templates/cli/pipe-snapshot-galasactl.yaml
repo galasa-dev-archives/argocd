@@ -87,3 +87,21 @@ spec:
     workspaces:
      - name: git-workspace
        workspace: git-workspace
+#
+#
+#
+  - name: snapshot-amd64-bm
+    taskRef:
+      name: snapshot-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-cli-ibm-amd64
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
