@@ -194,3 +194,34 @@ spec:
       java -jar target/org.jacoco.cli.jar merge target/image/unit/jacoco.exec target/image/integrated/jacoco.exec --destfile target/image/combined/jacoco.exec
 
       java -jar target/org.jacoco.cli.jar report target/image/combined/jacoco.exec --classfiles target/classes --sourcefiles target/sources --name 'Galasa CC Combined' --html target/image/combined/ --xml target/image/combined/jacoco.xml
+#
+# Copy the Docker build files to target
+#
+  - name: copy dockerfiles
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    script: |
+      set -e
+      cp -v git/obr/codecoveragetemplates/* workspace/target/
+#
+# Build docker image
+#
+  - name: docker
+    workingDir: /workspace/target
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/target
+    - --destination=$(params.dockerRepo)/galasadev/galasa-codecoverage:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git/eclipse/docker/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=dockerRepository=$(params.dockerRepo)
+    - --build-arg=branch=$(params.distBranch)
