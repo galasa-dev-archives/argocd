@@ -10,3 +10,5 @@ replicas:
   standard: 1
 
 endRepositoriesOnly: false
+
+codecoverageServer: false

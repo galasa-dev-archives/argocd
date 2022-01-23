@@ -1,7 +1,7 @@
 #
 # Copyright contributors to the Galasa project 
 #
-{{ if eq .Values.endRepositoriesOnly false }}
+{{ if .Values.codecoverageServer }}
 apiVersion: v1
 kind: Service
 metadata:
