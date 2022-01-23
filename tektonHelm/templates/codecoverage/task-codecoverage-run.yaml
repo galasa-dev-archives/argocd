@@ -140,3 +140,18 @@ spec:
     command:
     - cat
     - tests.yaml
+#
+# TEMP - See the results
+#
+  - name: fetchexecs
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - galasabld
+    - jacacofetch
+    - --results 
+    - tests.yaml 
+    - --output
+    - target/inttests
+    - --execs
+    - https://nexus.galasa.dev/repository/jacoco/codecov/execs  
