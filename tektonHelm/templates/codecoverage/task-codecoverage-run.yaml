@@ -28,6 +28,30 @@ spec:
 #
 #
   steps:
+  - name: ls1
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - ls
+    - -l
+  - name: ls2
+    workingDir: /workspace/git
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - ls
+    - -l
+  - name: ls3
+    workingDir: /workspace/git/obr
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - ls
+    - -l
+  - name: ls4
+    workingDir: /workspace/git/obr/codecoveragetemplates
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - ls
+    - -l
 #
 # Get all the sources and classes for all bundles marked for copyright checking in the release.yaml
 #
