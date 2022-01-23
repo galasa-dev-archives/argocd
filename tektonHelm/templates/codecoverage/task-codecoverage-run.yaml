@@ -70,7 +70,7 @@ spec:
     - -Dgalasa.source.repo=$(params.managersSourceRepo)
     - -Dgalasa.central.repo=$(params.mavenCentralRepo)
     - --settings
-    - settings.xml
+    - /workspace/git/obr/settings.xml
     - -B
     - -e
     - -fae
