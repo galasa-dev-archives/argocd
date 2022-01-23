@@ -12,3 +12,13 @@ spec:
   params:
   pipelineRef:
     name: codecoverage-run
+  workspaces:
+  - name: workspace
+    volumeClaimTemplate:
+      spec:
+        storageClassName: longhorn-temp
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

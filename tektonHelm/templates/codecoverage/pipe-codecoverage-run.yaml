@@ -11,9 +11,80 @@ spec:
     type: string
     default: {{ .Values.branch }}
   tasks:
+  - name: clone-framework
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/framework
+    - name: revision
+      value: $(params.distBranch)
+    - name: depth
+      value: "1"
+    - name: subdirectory
+      value: framework
+    taskRef:
+      kind: Task
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: workspace
+  - name: clone-extensions
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/extensions
+    - name: revision
+      value: $(params.distBranch)
+    - name: depth
+      value: "1"
+    - name: subdirectory
+      value: extensions
+    taskRef:
+      kind: Task
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: workspace
+  - name: clone-managers
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/managers
+    - name: revision
+      value: $(params.distBranch)
+    - name: depth
+      value: "1"
+    - name: subdirectory
+      value: managers
+    taskRef:
+      kind: Task
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: workspace
+  - name: clone-obr
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/obr
+    - name: revision
+      value: $(params.distBranch)
+    - name: refspec
+      value: $(params.refspec)
+    - name: depth
+      value: "1"
+    - name: subdirectory
+      value: obr
+    taskRef:
+      kind: Task
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: workspace
   - name: codecoverage
     taskRef: 
       name: codecoverage-run
+    runAfter:
+    - clone-obr
+    - clone-framework
+    - clone-extensions
+    - clone-managers
     params:
     - name: distBranch
       value: $(params.distBranch)

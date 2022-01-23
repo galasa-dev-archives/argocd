@@ -6,6 +6,9 @@ kind: Task
 metadata:
   name: codecoverage-run
 spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace
   params:
   - name: distBranch
     type: string
