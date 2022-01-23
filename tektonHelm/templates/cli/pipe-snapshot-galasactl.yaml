@@ -41,7 +41,7 @@ spec:
 #
 #
 #
-  - name: snapshot-galasactl
+  - name: snapshot-binary
     taskRef:
       name: snapshot-repo
     runAfter:
@@ -53,6 +53,37 @@ spec:
       value: $(params.oldBranch)
     - name: image
       value: galasa-cli-binary
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: recycle-binary
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - snapshot-binary
+    params:
+    - name: namespace
+      value: galasa-branch-$(params.distBranch)
+    - name: deployment
+      value: binary-cli
+#
+#
+#
+  - name: snapshot-amd64
+    taskRef:
+      name: snapshot-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-cli-amd64
     workspaces:
      - name: git-workspace
        workspace: git-workspace
