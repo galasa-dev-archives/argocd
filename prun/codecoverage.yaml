@@ -13,7 +13,7 @@ spec:
   pipelineRef:
     name: codecoverage-run
   workspaces:
-  - name: workspace
+  - name: git-workspace
     volumeClaimTemplate:
       spec:
         storageClassName: longhorn-temp

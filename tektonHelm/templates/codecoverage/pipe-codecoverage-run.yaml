@@ -87,5 +87,5 @@ spec:
     - name: managersSourceRepo
       value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/obr/
     workspaces:
-    - name: git
+    - name: git-workspace
       workspace: git-workspace
