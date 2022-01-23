@@ -197,7 +197,7 @@ spec:
 #
 # Copy the Docker build files to target
 #
-  - name: copy dockerfiles
+  - name: copy-dockerfiles
     workingDir: /workspace
     image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
     script: |
