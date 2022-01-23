@@ -1,0 +1,19 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: codecoverage-run
+spec:
+  params:
+  - name: distBranch
+    type: string
+    default: {{ .Values.branch }}
+  tasks:
+  - name: run-tests
+    taskRef: 
+      name: codecoverage-run
+    params:
+    - name: distBranch
+      value: $(params.distBranch)

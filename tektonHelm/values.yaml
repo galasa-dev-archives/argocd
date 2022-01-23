@@ -3,9 +3,13 @@
 #
 branch: main
 
+currentVersion: 0.20.0
+
 simplatformBranch: prod
 
 managersBranch: prod
+
+cliVersion: prod
 
 mavenRepoBaseImageVersion: 0.16.0
 

@@ -1,0 +1,21 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: codecoverage-run
+spec:
+  params:
+  - name: distBranch
+    type: string
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+  steps:
+  - name: check-cli-version
+    workingDir: /workspace/git/extensions
+    image: $(params.dockerRepo)/galasadev/galasa-cli-amd64:{{ .Values.cliVersion }}
+    command:
+    - galasactl
+    - --version
