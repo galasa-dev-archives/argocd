@@ -13,7 +13,7 @@ spec:
     type: string
     default: {{ .Values.dockerRegistry }}
   steps:
-  - name: check-cli-version
+  - name: run-tests
     workingDir: /workspace
     image: $(params.dockerRepo)/galasadev/galasa-cli-ibm-amd64:{{ .Values.cliVersion }}
     imagePullPolicy: Always
@@ -56,3 +56,9 @@ spec:
     - zos.dse.tag.PRIMARY.imageid=MV2D
     - --override
     - zos.dse.tag.PRIMARY.clusterid=PLEX2
+  - name: catresults
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - cat
+    - tests.yaml
