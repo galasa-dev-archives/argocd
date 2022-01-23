@@ -65,8 +65,6 @@ spec:
       value: https://github.com/galasa-dev/obr
     - name: revision
       value: $(params.distBranch)
-    - name: refspec
-      value: $(params.refspec)
     - name: depth
       value: "1"
     - name: subdirectory
