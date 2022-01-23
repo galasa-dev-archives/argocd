@@ -6,12 +6,16 @@ kind: Pipeline
 metadata:
   name: codecoverage-run
 spec:
+  workspaces:
+  - name: workspace
   params:
   - name: distBranch
     type: string
     default: {{ .Values.branch }}
   tasks:
   - name: clone-framework
+    taskRef:
+      name: git-clone
     params:
     - name: url
       value: https://github.com/galasa-dev/framework
@@ -21,13 +25,12 @@ spec:
       value: "1"
     - name: subdirectory
       value: framework
-    taskRef:
-      kind: Task
-      name: git-clone
     workspaces:
     - name: output
       workspace: workspace
   - name: clone-extensions
+    taskRef:
+      name: git-clone
     params:
     - name: url
       value: https://github.com/galasa-dev/extensions
@@ -37,13 +40,12 @@ spec:
       value: "1"
     - name: subdirectory
       value: extensions
-    taskRef:
-      kind: Task
-      name: git-clone
     workspaces:
     - name: output
       workspace: workspace
   - name: clone-managers
+    taskRef:
+      name: git-clone
     params:
     - name: url
       value: https://github.com/galasa-dev/managers
@@ -53,13 +55,12 @@ spec:
       value: "1"
     - name: subdirectory
       value: managers
-    taskRef:
-      kind: Task
-      name: git-clone
     workspaces:
     - name: output
       workspace: workspace
   - name: clone-obr
+    taskRef:
+      name: git-clone
     params:
     - name: url
       value: https://github.com/galasa-dev/obr
@@ -69,15 +70,11 @@ spec:
       value: "1"
     - name: subdirectory
       value: obr
-    taskRef:
-      kind: Task
-      name: git-clone
     workspaces:
     - name: output
       workspace: workspace
   - name: codecoverage
     taskRef: 
-      kind: Task
       name: codecoverage-run
     runAfter:
     - clone-obr
