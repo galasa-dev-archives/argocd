@@ -53,7 +53,7 @@ spec:
     taskRef:
       name: recycle-deployment
     runAfter:
-    - galasactl
+    - galasabld
     when:
     - input: "$(params.noPush)"
       operator: notin
