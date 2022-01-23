@@ -28,30 +28,6 @@ spec:
 #
 #
   steps:
-  - name: ls1
-    workingDir: /workspace
-    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
-    command:
-    - ls
-    - -l
-  - name: ls2
-    workingDir: /workspace/git
-    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
-    command:
-    - ls
-    - -l
-  - name: ls3
-    workingDir: /workspace/git/obr
-    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
-    command:
-    - ls
-    - -l
-  - name: ls4
-    workingDir: /workspace/git/obr/codecoveragetemplates
-    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
-    command:
-    - ls
-    - -l
 #
 # Get all the sources and classes for all bundles marked for copyright checking in the release.yaml
 #
@@ -94,12 +70,11 @@ spec:
     - -Dgalasa.source.repo=$(params.managersSourceRepo)
     - -Dgalasa.central.repo=$(params.mavenCentralRepo)
     - --settings
-    - pom.xml
+    - settings.xml
     - -B
     - -e
     - -fae
     - process-sources
-    resources: {}
 #
 # TEMP - Make sure target is populated
 #
