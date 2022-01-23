@@ -65,3 +65,49 @@ spec:
     command:
     - cat
     - tests.yaml
+  - name: generate-pom-sources
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    workingDir: /workspace
+    command:
+    - galasabld
+    - template
+    - --releaseMetadata
+    - /workspace/framework/release.yaml
+    - --releaseMetadata
+    - /workspace/extensions/release.yaml
+    - --releaseMetadata
+    - /workspace/managers/release.yaml
+    - --releaseMetadata
+    - /workspace/obr/release.yaml
+    - --template
+    - /workspace/obr/codecoveragetemplates/pom.template
+    - --output
+    - pom.xml
+    - --codecoverage
+  - name: cattemplate
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - cat
+    - pom.xml
+  - name: fetch-maven-artifacts
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    workingDir: /workspace
+    command:
+    - mvn
+    - -Dgalasa.source.repo=$(params.managersSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - --settings
+    - pom.xml
+    - -B
+    - -e
+    - -fae
+    - process-sources
+    resources: {}
+  - name: lstarget
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-build:{{ .Values.buildImage }}
+    command:
+    - ls
+    - -l
+    - target
