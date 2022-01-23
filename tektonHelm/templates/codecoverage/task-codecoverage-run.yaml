@@ -16,6 +16,7 @@ spec:
   - name: check-cli-version
     workingDir: /workspace
     image: $(params.dockerRepo)/galasadev/galasa-cli-ibm-amd64:{{ .Values.cliVersion }}
+    imagePullPolicy: Always
     command:
     - galasactl
     - runs
