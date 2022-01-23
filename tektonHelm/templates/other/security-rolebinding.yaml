@@ -12,3 +12,6 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: build-bot
+- kind: ServiceAccount
+  name: jenkins-tekton
+  namespace: galasa-tekton
