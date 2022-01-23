@@ -18,6 +18,7 @@ spec:
     image: $(params.dockerRepo)/galasadev/galasa-cli-amd64:{{ .Values.cliVersion }}
     command:
     - galasactl
+    - runs
     - submit
 #
     - tag
