@@ -77,6 +77,7 @@ spec:
       workspace: workspace
   - name: codecoverage
     taskRef: 
+      kind: Task
       name: codecoverage-run
     runAfter:
     - clone-obr
