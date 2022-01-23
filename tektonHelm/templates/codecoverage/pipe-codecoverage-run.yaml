@@ -12,6 +12,9 @@ spec:
   - name: distBranch
     type: string
     default: {{ .Values.branch }}
+  - name: cloneBranch
+    type: string
+    default: {{ .Values.branch }}
   tasks:
   - name: clone-framework
     taskRef:
@@ -20,7 +23,7 @@ spec:
     - name: url
       value: https://github.com/galasa-dev/framework
     - name: revision
-      value: $(params.distBranch)
+      value: $(params.cloneBranch)
     - name: depth
       value: "1"
     - name: subdirectory
@@ -37,7 +40,7 @@ spec:
     - name: url
       value: https://github.com/galasa-dev/extensions
     - name: revision
-      value: $(params.distBranch)
+      value: $(params.cloneBranch)
     - name: depth
       value: "1"
     - name: subdirectory
@@ -52,7 +55,7 @@ spec:
     - name: url
       value: https://github.com/galasa-dev/managers
     - name: revision
-      value: $(params.distBranch)
+      value: $(params.cloneBranch)
     - name: depth
       value: "1"
     - name: subdirectory
@@ -69,7 +72,7 @@ spec:
     - name: url
       value: https://github.com/galasa-dev/obr
     - name: revision
-      value: $(params.distBranch)
+      value: $(params.cloneBranch)
     - name: depth
       value: "1"
     - name: subdirectory
