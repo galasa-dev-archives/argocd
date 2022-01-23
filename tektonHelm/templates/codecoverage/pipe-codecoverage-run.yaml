@@ -84,3 +84,5 @@ spec:
     params:
     - name: distBranch
       value: $(params.distBranch)
+    - name: managersSourceRepo
+      value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/obr/

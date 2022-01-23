@@ -12,6 +12,12 @@ spec:
   params:
   - name: distBranch
     type: string
+  - default: {{ .Values.mavenProxy }}
+    name: mavenCentralRepo
+    type: string
+  - default: {{ .Values.mavenProxy }}
+    name: managersSourceRepo
+    type: string
   - name: dockerRepo
     type: string
     default: {{ .Values.dockerRegistry }}
