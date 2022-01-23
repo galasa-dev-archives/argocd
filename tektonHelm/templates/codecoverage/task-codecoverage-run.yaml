@@ -8,7 +8,7 @@ metadata:
 spec:
   workspaces:
   - name: git-workspace
-    mountPath: /workspace
+    mountPath: /workspace/git
   params:
   - name: distBranch
     type: string
@@ -78,15 +78,15 @@ spec:
     - galasabld
     - template
     - --releaseMetadata
-    - /workspace/framework/release.yaml
+    - /workspace/git/framework/release.yaml
     - --releaseMetadata
-    - /workspace/extensions/release.yaml
+    - /workspace/git/extensions/release.yaml
     - --releaseMetadata
-    - /workspace/managers/release.yaml
+    - /workspace/git/managers/release.yaml
     - --releaseMetadata
-    - /workspace/obr/release.yaml
+    - /workspace/git/obr/release.yaml
     - --template
-    - /workspace/obr/codecoveragetemplates/pom.template
+    - /workspace/git/obr/codecoveragetemplates/pom.template
     - --output
     - pom.xml
     - --codecoverage

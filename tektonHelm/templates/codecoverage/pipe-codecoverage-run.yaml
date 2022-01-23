@@ -7,7 +7,7 @@ metadata:
   name: codecoverage-run
 spec:
   workspaces:
-  - name: workspace
+  - name: git-workspace
   params:
   - name: distBranch
     type: string
@@ -27,7 +27,7 @@ spec:
       value: framework
     workspaces:
     - name: output
-      workspace: workspace
+      workspace: git-workspace
   - name: clone-extensions
     taskRef:
       name: git-clone
@@ -42,7 +42,7 @@ spec:
       value: extensions
     workspaces:
     - name: output
-      workspace: workspace
+      workspace: git-workspace
   - name: clone-managers
     taskRef:
       name: git-clone
@@ -57,7 +57,7 @@ spec:
       value: managers
     workspaces:
     - name: output
-      workspace: workspace
+      workspace: git-workspace
   - name: clone-obr
     taskRef:
       name: git-clone
@@ -72,7 +72,7 @@ spec:
       value: obr
     workspaces:
     - name: output
-      workspace: workspace
+      workspace: git-workspace
   - name: codecoverage
     taskRef: 
       name: codecoverage-run
@@ -86,3 +86,6 @@ spec:
       value: $(params.distBranch)
     - name: managersSourceRepo
       value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/obr/
+    workspaces:
+    - name: git
+      workspace: git-workspace
