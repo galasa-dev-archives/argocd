@@ -21,6 +21,26 @@ spec:
 #
 #
 #
+  - name: clone-argocd
+    taskRef: 
+      name: git-clone
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/argocd
+    - name: revision
+      value: main
+    - name: refspec
+      value: +refs/heads/main:refs/heads/main
+    - name: depth
+      value: "1"
+    - name: subdirectory
+      value: argocd
+    workspaces:
+     - name: output
+       workspace: git-workspace
+#
+#
+#
   - name: snapshot-buildimage
     taskRef:
       name: snapshot-generic
