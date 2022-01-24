@@ -30,7 +30,7 @@ spec:
     - name: refspec
       value: $(params.refspec)
     - name: depth
-      value: "99999999"
+      value: "1"
     - name: subdirectory
       value: buildutils
     workspaces:
