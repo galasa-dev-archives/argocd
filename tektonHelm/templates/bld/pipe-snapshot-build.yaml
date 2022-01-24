@@ -1,0 +1,38 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: snapshot-galasabld
+spec:
+  workspaces:
+  - name: git-workspace
+  params:
+  - name: distBranch
+    type: string
+  - name: oldBranch
+    type: string
+    default: {{ .Values.branch }}
+#
+#
+#
+  tasks:
+#
+#
+#
+  - name: snapshot-buildimage
+    taskRef:
+      name: snapshot-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: galasa-build
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
