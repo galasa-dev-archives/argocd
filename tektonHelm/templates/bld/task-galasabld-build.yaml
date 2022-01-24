@@ -106,7 +106,7 @@ spec:
     image: $(params.dockerRepo)/galasadev/galasa-build
     command:
     - cp
-    - v
+    - -v
     - bin/galasabld-linux-amd64
     - galasabuild-image/
 #
