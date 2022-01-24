@@ -18,13 +18,22 @@ spec:
   - name: noPush
     type: string
     default: ""
+#
+#
+#
   steps:
+#
+#
+#
   - name: galasabld-build
     workingDir: /workspace/git/buildutils
     image: $(params.dockerRepo)/galasadev/galasa-build
     command:
     - make
     - all
+#
+#
+#
   - name: docker-build-binary
     workingDir: /workspace/git/buildutils
     image: $(params.dockerRepo)/common/kaniko-project/executor:latest
@@ -36,6 +45,83 @@ spec:
     - --dockerfile=./Dockerfile
     - --context=/workspace/git/buildutils
     - --destination=$(params.dockerRepo)/galasadev/galasa-bld-binary:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git-framework/docker/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=branch=$(params.distBranch)
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
+#
+#
+#
+  - name: docker-build-bld
+    workingDir: /workspace/git/buildutils
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./DockerfileBld
+    - --context=/workspace/git/buildutils
+    - --destination=$(params.dockerRepo)/galasadev/galasa-bld-amd64:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git-framework/docker/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=platform=linux-amd64
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
+#
+#
+#
+  - name: docker-build-bld-ibm
+    workingDir: /workspace/git/buildutils
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./DockerfileBldIBM
+    - --context=/workspace/git/buildutils
+    - --destination=$(params.dockerRepo)/galasadev/galasa-bld-ibm-amd64:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git-framework/docker/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=branch=$(params.distBranch)
+    - --build-arg=platform=linux-amd64
+    - --build-arg=dockerRepository=$(params.dockerRepo)
+#
+#
+#
+  - name: copy-galasabld
+    workingDir: /workspace/git/buildutils
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - cp
+    - bin/galasabld-linux-amd64
+    - galasabuild-image/
+#
+#
+#
+  - name: docker-buildimage
+    workingDir: /workspace/git/buildutils/galasabuild-image
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/buildutils/galasabuild-image
+    - --destination=$(params.dockerRepo)/galasadev/galasa-build:$(params.distBranch)
     - $(params.noPush)
     - --oci-layout-path=/workspace/git-framework/docker/image-digest
     - --skip-tls-verify
