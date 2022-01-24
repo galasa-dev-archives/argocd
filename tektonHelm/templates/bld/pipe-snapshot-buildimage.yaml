@@ -4,7 +4,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: snapshot-galasabld
+  name: snapshot-buildimage
 spec:
   workspaces:
   - name: git-workspace
