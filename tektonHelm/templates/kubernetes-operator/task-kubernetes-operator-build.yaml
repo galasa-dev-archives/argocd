@@ -8,7 +8,6 @@ metadata:
 spec:
   workspaces:
   - name: git-workspace
-    optional: false
     mountpath: /workspace/git
   params:
   - name: distBranch
