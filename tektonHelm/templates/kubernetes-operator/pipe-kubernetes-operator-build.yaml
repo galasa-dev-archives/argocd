@@ -50,15 +50,13 @@ spec:
 # This is the build task for creating and publishing the operator docker image
   - name: operator-build-tagged-version
     taskRef:
-      name: kubernetes-operator-build-task
+      name: kubernetes-operator-build
 # By default tasks run in parallel, unless like this told to run after a step
     runAfter:
     - clone-galasa-kubernetes-operator
     params:
     - name: noPush
       value: $(params.noPush)
-    - name: imageName
-      value: $(params.imageName)
     workspaces:
      - name: git-workspace
        workspace: git-workspace

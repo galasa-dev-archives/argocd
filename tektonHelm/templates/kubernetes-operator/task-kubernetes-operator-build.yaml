@@ -6,7 +6,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: kubernetes-operator-build-task
+  name: kubernetes-operator-build
 spec:
 # For this task we are using a workspace, which infers this task is part of a multistage pipeline
 # and that all the required resourcers nessesary for this task will be in the workspace/adding to 
