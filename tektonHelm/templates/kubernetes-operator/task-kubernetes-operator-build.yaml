@@ -11,7 +11,7 @@ spec:
     optional: false
     mountpath: /workspace/git
   params:
-    - name: distBranch
+  - name: distBranch
     type: string
   - name: dockerRepo
     type: string
