@@ -7,7 +7,6 @@ apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: kubernetes-operator-build
-  namespace: galasa-tekton
 spec:
 # This pipeline requires a workspace, (tells kuberenetes to provision a volume)
   workspaces:
