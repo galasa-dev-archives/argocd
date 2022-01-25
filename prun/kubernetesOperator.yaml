@@ -1,0 +1,30 @@
+#
+# Copyright contributors to the Galasa project 
+#
+# This is a pipeline run that submits a clone and build of the kubernetes operator
+#
+kind: PipelineRun
+apiVersion: tekton.dev/v1beta1
+metadata:
+  generateName: kubernetes-operator-test-pipeline-
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+    argocd.argoproj.io/sync-options: Prune=false
+spec:
+  params:
+  pipelineRef:
+    name: kubernetes-operator-build
+  serviceAccountName: build-bot
+  podTemplate:
+    nodeSelector:
+      kubernetes.io/arch: amd64
+  workspaces:
+  - name: git-workspace
+    volumeClaimTemplate:
+      spec:
+        storageClassName: longhorn-temp
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
