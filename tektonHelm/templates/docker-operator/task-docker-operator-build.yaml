@@ -38,7 +38,7 @@ spec:
     - /kaniko/executor
     - --dockerfile=./Dockerfile
     - --context=/workspace/git/galasa-docker-operator
-    - --destination=$(params.dockerRepo)/galasadev/galasa-docker-operator:$(params.distBranch)
+    - --destination=$(params.dockerRepo)/galasadev/galasa-docker-operator-amd64:$(params.distBranch)
     - --oci-layout-path=/workspace/git/galasa-docker-operator/image-digest
     - --skip-tls-verify
     - --skip-tls-verify-pull

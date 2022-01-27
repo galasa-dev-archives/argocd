@@ -29,7 +29,7 @@ spec:
     - /kaniko/executor
     - --dockerfile=./Dockerfile
     - --context=/workspace/git/galasa-kubernetes-operator
-    - --destination=$(params.dockerRepo)/galasadev/galasa-kubernetes-operator:$(params.distBranch)
+    - --destination=$(params.dockerRepo)/galasadev/galasa-kubernetes-operator-amd64:$(params.distBranch)
     - --oci-layout-path=/workspace/git/galasa-kubernetes-operator/image-digest
     - --skip-tls-verify
     - --skip-tls-verify-pull
