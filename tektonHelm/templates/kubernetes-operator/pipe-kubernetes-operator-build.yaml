@@ -45,6 +45,8 @@ spec:
     runAfter:
     - clone-galasa-kubernetes-operator
     params:
+    - name: distBranch
+      value: $(params.distBranch)
     - name: noPush
       value: $(params.noPush)
     workspaces:
