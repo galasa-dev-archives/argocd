@@ -13,9 +13,6 @@ spec:
   pipelineRef:
     name: docker-operator-build
   serviceAccountName: build-bot
-  podTemplate:
-    nodeSelector:
-      kubernetes.io/arch: amd64
   workspaces:
   - name: git-workspace
     volumeClaimTemplate:

@@ -22,11 +22,11 @@ spec:
   - name: gradle-build 
     image: $(params.dockerRepo)/galasadev/galasa-build
     command:
-          - gradle
-          - '--no-daemon'
-          - '--console'
-          - plain
-          - build
+      - gradle
+      - '--no-daemon'
+      - '--console'
+      - plain
+      - build
     workingDir: /workspace/git/galasa-docker-operator/
   - name: docker-build
     workingDir: /workspace/git/galasa-docker-operator/

@@ -1,8 +1,6 @@
 #
 # Copyright contributors to the Galasa project 
 #
-# This is a pipeline run that submits a clone and build of the kubernetes operator
-#
 kind: PipelineRun
 apiVersion: tekton.dev/v1beta1
 metadata:
@@ -15,9 +13,6 @@ spec:
   pipelineRef:
     name: kubernetes-operator-build
   serviceAccountName: build-bot
-  podTemplate:
-    nodeSelector:
-      kubernetes.io/arch: amd64
   workspaces:
   - name: git-workspace
     volumeClaimTemplate:
