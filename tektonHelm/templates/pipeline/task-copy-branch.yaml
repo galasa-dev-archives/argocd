@@ -32,8 +32,7 @@ spec:
     - copy
     - --to
     - $(params.distBranch)
-    - --branch
+    - --branch
     - $(params.fromBranch)
     - $(params.overwrite)
     - $(params.force)
-
