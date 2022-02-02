@@ -1,0 +1,27 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: copy-branch
+spec:
+  params:
+  - name: repo
+    type: string
+  - name: distBranch
+    type: string
+  - name: fromBranch
+    type: string
+  - name: force
+    type: string
+    default: ""
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+  steps: 
+  - name: snap-repo
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - galasabld
+    - --version

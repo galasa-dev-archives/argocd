@@ -1,0 +1,34 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: branch-galasa
+spec:
+  params:
+  - name: distBranch
+    type: string
+  - name: fromBranch
+    type: string
+  - name: force
+    type: string
+#
+#
+#
+  tasks:
+#
+#
+#
+  - name: copy-branch-argocd
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: argocd
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
