@@ -10,6 +10,8 @@ metadata:
     argocd.argoproj.io/sync-options: Prune=false
 spec:
   params:
+  - name: cloneBranch
+    value: main
   pipelineRef:
     name: codecoverage-run
   workspaces:
