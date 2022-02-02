@@ -30,9 +30,13 @@ spec:
     - github
     - branch
     - copy
+    - --repository
+    - $(params.repo)
     - --to
     - $(params.distBranch)
     - --branch
     - $(params.fromBranch)
     - $(params.overwrite)
     - $(params.force)
+    - --credentials
+    - /workspace/creds/github.yaml
