@@ -16,5 +16,7 @@ spec:
     value: "release"
   - name: fromBranch
     value: "main"
+  - name: overwrite
+    value: ""
   - name: force
     value: ""

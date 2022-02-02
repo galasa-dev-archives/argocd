@@ -11,6 +11,8 @@ spec:
     type: string
   - name: fromBranch
     type: string
+  - name: overwrite
+    type: string
   - name: force
     type: string
 #

@@ -16,6 +16,9 @@ spec:
   - name: force
     type: string
     default: ""
+  - name: overwrite
+    type: string
+    default: ""
   - name: dockerRepo
     type: string
     default: {{ .Values.dockerRegistry }}
@@ -24,4 +27,13 @@ spec:
     image: $(params.dockerRepo)/galasadev/galasa-build
     command:
     - galasabld
-    - --version
+    - github
+    - branch
+    - copy
+    - --to
+    - $(params.distBranch)
+    - --branch
+    - $(params.fromBranch)
+    - $(params.overwrite)
+    - $(params.force)
+
