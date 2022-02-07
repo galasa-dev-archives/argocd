@@ -104,17 +104,6 @@ spec:
 #
 #
 #
-  - name: delete-branch-simplatform
-    taskRef: 
-      name: delete-branch
-    params:
-    - name: repo
-      value: simplatform
-    - name: distBranch
-      value: $(params.distBranch)
-#
-#
-#
   - name: delete-branch-eclipse
     taskRef: 
       name: delete-branch
@@ -143,49 +132,5 @@ spec:
     params:
     - name: repo
       value: docker
-    - name: distBranch
-      value: $(params.distBranch)
-#
-#
-#
-  - name: delete-branch-docker-operator
-    taskRef: 
-      name: delete-branch
-    params:
-    - name: repo
-      value: galasa-docker-operator
-    - name: distBranch
-      value: $(params.distBranch)
-#
-#
-#
-  - name: delete-branch-kubernetes-operator
-    taskRef: 
-      name: delete-branch
-    params:
-    - name: repo
-      value: galasa-kubernetes-operator
-    - name: distBranch
-      value: $(params.distBranch)
-#
-#
-#
-  - name: delete-branch-integratedtests
-    taskRef: 
-      name: delete-branch
-    params:
-    - name: repo
-      value: integratedtests
-    - name: distBranch
-      value: $(params.distBranch)
-#
-#
-#
-  - name: delete-branch-cli
-    taskRef: 
-      name: delete-branch
-    params:
-    - name: repo
-      value: cli
     - name: distBranch
       value: $(params.distBranch)
