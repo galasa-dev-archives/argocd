@@ -28,6 +28,8 @@ spec:
     - github
     - branch
     - delete
+    - --repository
+    - $(params.repo)
     - --branch
     - $(params.distBranch)
     - --credentials
