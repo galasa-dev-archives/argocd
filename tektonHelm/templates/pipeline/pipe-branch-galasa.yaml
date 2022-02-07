@@ -13,8 +13,10 @@ spec:
     type: string
   - name: overwrite
     type: string
+    default: ""
   - name: force
     type: string
+    default: ""
 #
 #
 #
@@ -28,6 +30,231 @@ spec:
     params:
     - name: repo
       value: argocd
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-wrapping
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: wrapping
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-gradle
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: gradle
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-maven
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: maven
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-framework
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: framework
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-extensions
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: extensions
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-managers
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: managers
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-obr
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: obr
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-simplatform
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: simplatform
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-eclipse
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: eclipse
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-isolated
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: isolated
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-docker
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: docker
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-docker-operator
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: galasa-docker-operator
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-kubernetes-operator
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: galasa-kubernetes-operator
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-integratedtests
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: integratedtests
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: fromBranch
+      value: $(params.fromBranch)
+    - name: force
+      value: $(params.force)
+#
+#
+#
+  - name: copy-branch-cli
+    taskRef: 
+      name: copy-branch
+    params:
+    - name: repo
+      value: cli
     - name: distBranch
       value: $(params.distBranch)
     - name: fromBranch
