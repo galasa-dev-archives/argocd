@@ -4,7 +4,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: branch-galasa
+  name: branch-clone-galasa
 spec:
   params:
   - name: distBranch
@@ -24,9 +24,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-argocd
+  - name: clone-branch-argocd
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: argocd
@@ -39,9 +39,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-wrapping
+  - name: clone-branch-wrapping
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: wrapping
@@ -54,9 +54,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-gradle
+  - name: clone-branch-gradle
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: gradle
@@ -69,9 +69,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-maven
+  - name: clone-branch-maven
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: maven
@@ -84,9 +84,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-framework
+  - name: clone-branch-framework
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: framework
@@ -99,9 +99,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-extensions
+  - name: clone-branch-extensions
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: extensions
@@ -114,9 +114,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-managers
+  - name: clone-branch-managers
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: managers
@@ -129,9 +129,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-obr
+  - name: clone-branch-obr
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: obr
@@ -144,9 +144,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-simplatform
+  - name: clone-branch-simplatform
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: simplatform
@@ -159,9 +159,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-eclipse
+  - name: clone-branch-eclipse
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: eclipse
@@ -174,9 +174,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-isolated
+  - name: clone-branch-isolated
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: isolated
@@ -189,9 +189,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-docker
+  - name: clone-branch-docker
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: docker
@@ -204,9 +204,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-docker-operator
+  - name: clone-branch-docker-operator
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: galasa-docker-operator
@@ -219,9 +219,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-kubernetes-operator
+  - name: clone-branch-kubernetes-operator
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: galasa-kubernetes-operator
@@ -234,9 +234,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-integratedtests
+  - name: clone-branch-integratedtests
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: integratedtests
@@ -249,9 +249,9 @@ spec:
 #
 #
 #
-  - name: copy-branch-cli
+  - name: clone-branch-cli
     taskRef: 
-      name: copy-branch
+      name: clone-branch
     params:
     - name: repo
       value: cli

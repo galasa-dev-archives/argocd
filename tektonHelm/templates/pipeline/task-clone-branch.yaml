@@ -1,0 +1,55 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: clone-branch
+spec:
+  params:
+  - name: repo
+    type: string
+  - name: distBranch
+    type: string
+  - name: fromBranch
+    type: string
+  - name: force
+    type: string
+    default: ""
+  - name: overwrite
+    type: string
+    default: ""
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+#
+#
+#
+  steps: 
+#
+#
+#
+  - name: clone-branch
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - galasabld
+    - github
+    - branch
+    - copy
+    - --repository
+    - $(params.repo)
+    - --to
+    - $(params.distBranch)
+    - --branch
+    - $(params.fromBranch)
+    - $(params.overwrite)
+    - $(params.force)
+    - --credentials
+    - /workspace/creds/githubcreds.yaml
+    volumeMounts:
+    - name: githubcreds
+      mountPath: /workspace/creds
+  volumes:
+    - name: githubcreds
+      secret:
+        secretName: github-creds

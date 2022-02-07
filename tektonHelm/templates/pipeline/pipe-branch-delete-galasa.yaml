@@ -1,0 +1,191 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: branch-delete-galasa
+spec:
+  params:
+  - name: distBranch
+    type: string
+#
+#
+#
+  tasks:
+#
+#
+#
+  - name: delete-branch-argocd
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: argocd
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-wrapping
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: wrapping
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-gradle
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: gradle
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-maven
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: maven
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-framework
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: framework
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-extensions
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: extensions
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-managers
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: managers
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-obr
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: obr
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-simplatform
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: simplatform
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-eclipse
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: eclipse
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-isolated
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: isolated
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-docker
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: docker
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-docker-operator
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: galasa-docker-operator
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-kubernetes-operator
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: galasa-kubernetes-operator
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-integratedtests
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: integratedtests
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-branch-cli
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: cli
+    - name: distBranch
+      value: $(params.distBranch)

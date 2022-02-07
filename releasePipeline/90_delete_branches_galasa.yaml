@@ -4,19 +4,13 @@
 kind: PipelineRun
 apiVersion: tekton.dev/v1beta1
 metadata:
-  generateName: clone-galasa-
+  generateName: delete-branches-galasa-
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
     argocd.argoproj.io/sync-options: Prune=false
 spec:
   pipelineRef:
-    name: branch-clone-galasa
+    name: branch-delete-galasa
   params:
   - name: distBranch
     value: "release"
-  - name: fromBranch
-    value: "main"
-#  - name: overwrite
-#    value: "--overwrite"
-#  - name: force
-#    value: ""

@@ -4,40 +4,32 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: copy-branch
+  name: delete-branch
 spec:
   params:
   - name: repo
     type: string
   - name: distBranch
     type: string
-  - name: fromBranch
-    type: string
-  - name: force
-    type: string
-    default: ""
-  - name: overwrite
-    type: string
-    default: ""
   - name: dockerRepo
     type: string
     default: {{ .Values.dockerRegistry }}
+#
+#
+#
   steps: 
-  - name: snap-repo
+#
+#
+#
+  - name: delete-branch
     image: $(params.dockerRepo)/galasadev/galasa-build
     command:
     - galasabld
     - github
     - branch
-    - copy
-    - --repository
-    - $(params.repo)
-    - --to
-    - $(params.distBranch)
+    - delete
     - --branch
-    - $(params.fromBranch)
-    - $(params.overwrite)
-    - $(params.force)
+    - $(params.distBranch)
     - --credentials
     - /workspace/creds/githubcreds.yaml
     volumeMounts:
