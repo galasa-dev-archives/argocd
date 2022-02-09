@@ -1,0 +1,32 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: deploy-maven-galasa
+spec:
+  params:
+  - name: version
+    type: string
+  - name: repository
+    type: string
+  - name: dockerRepo
+    type: string
+#
+#
+#
+  tasks:
+#
+#
+#
+  - name: deploy-maven
+    taskRef: 
+      name: deploy-maven-galasa
+    params:
+    - name: version
+      value: $(params.version)
+    - name: repository
+      value: $(params.repository)
+    - name: dockerRepo
+      value: $(params.dockerRepo)
