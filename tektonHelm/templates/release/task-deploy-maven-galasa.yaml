@@ -31,7 +31,7 @@ spec:
     - --credentials
     - /workspace/creds/mavencreds.yaml
     volumeMounts:
-    - name: maven
+    - name: mavencreds
       mountPath: /workspace/creds
   volumes:
     - name: mavencreds
