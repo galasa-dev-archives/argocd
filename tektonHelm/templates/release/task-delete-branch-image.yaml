@@ -28,7 +28,7 @@ spec:
     - harbor
     - deleteimage
     - --harbor
-    - $(params.dockerRepo)
+    - https://$(params.dockerRepo)
     - --project
     - galasadev
     - --repository
