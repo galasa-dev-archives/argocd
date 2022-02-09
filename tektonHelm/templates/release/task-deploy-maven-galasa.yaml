@@ -27,7 +27,7 @@ spec:
     - --group
     - dev.galasa
     - --version
-    - ${params.version}
+    - $(params.version)
     - --credentials
     - /workspace/creds/mavencreds.yaml
     volumeMounts:
