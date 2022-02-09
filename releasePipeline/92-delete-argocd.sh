@@ -2,6 +2,7 @@
 
 set -e
 
-kubectl delete namespace galasa-branch-release
+argocd app delete galasa-release-tekton
+argocd app delete galasa-release-repo
 
 echo "Complete"

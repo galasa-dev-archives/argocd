@@ -1,0 +1,84 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: full-regression
+spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+#
+#
+#
+  params:
+  - name: distBranch
+    type: string
+  - name: version
+    type: string
+  - name: bootVersion
+    type: string
+  - default: {{ .Values.mavenProxy }}
+    name: mavenCentralRepo
+    type: string
+  - default: {{ .Values.mavenProxy }}
+    name: managersSourceRepo
+    type: string
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+#
+#
+#
+  steps:
+#
+# Run the regression tests in Galasa
+#
+  - name: run-tests
+    workingDir: /workspace
+    image: $(params.dockerRepo)/galasadev/galasa-cli-ibm-amd64:{{ .Values.cliVersion }}
+    imagePullPolicy: Always
+    command:
+    - galasactl
+    - runs
+    - submit
+#
+    - --stream
+    - inttests
+#
+    - --package
+    - local
+    - --package
+    - kubernetes
+    - --package
+    - compilation
+#
+    - --trace
+#
+    - --bootstrap
+    - http://galasa-cicsk8s.hursley.ibm.com/bootstrap
+    - --throttle
+    - '30' 
+    - --throttlefile
+    - throttle
+    - --poll
+    - '10'
+    - --progress
+    - '1'
+#
+    - --reportyaml
+    - tests.yaml
+#
+    - --override
+    - galasaecosystem.runtime.repository=http://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/obr
+    - --override 
+    - galasaecosystem.isolated.mvp.zip=http://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/mvp/dev/galasa/galasa-isolated-mvp/$(params.version)/galasa-isolated-mvp-$(params.version).zip \
+    - --override 
+    - galasaecosystem.isolated.full.zip=http://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/isolated/dev/galasa/galasa-isolated/$(params.version)/galasa-isolated-$(params.version).zip \
+    - --override
+    - galasaecosystem.docker.version=$(params.distBranch)
+    - --override 
+    - galasaecosystem.runtime.version=$(params.version) \
+    - --override 
+    - galasaecosystem.galasaboot.version=$(params.bootVersion) \

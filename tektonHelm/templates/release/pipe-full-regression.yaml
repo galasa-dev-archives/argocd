@@ -1,0 +1,36 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: full-regression
+spec:
+#
+#
+#
+  params:
+  - name: distBranch
+    type: string
+    default: {{ .Values.branch }}
+  - name: version
+    type: string
+  - name: bootVersion
+    type: string
+#
+#
+#
+  tasks:
+#
+#
+#
+  - name: regression-run
+    taskRef: 
+      name: full-regression
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: version
+      value: $(params.version)
+    - name: bootVersion
+      value: $(params.bootVersion)
