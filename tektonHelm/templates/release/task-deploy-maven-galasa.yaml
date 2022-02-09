@@ -14,6 +14,15 @@ spec:
   - name: dockerRepo
     type: string
   steps: 
+  - name: cat
+    image: $(params.dockerRepo)/galasadev/galasa-maven-obr:{{ .Values.branch }}
+    imagePullPolicy: Always
+    command:
+    - cat
+    - /workspace/creds/mavencreds.yaml
+    volumeMounts:
+    - name: mavencreds
+      mountPath: /workspace/creds
   - name: deploy-maven
     image: $(params.dockerRepo)/galasadev/galasa-maven-obr:{{ .Values.branch }}
     imagePullPolicy: Always
