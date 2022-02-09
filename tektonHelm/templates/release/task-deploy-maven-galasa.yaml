@@ -10,7 +10,8 @@ spec:
   - name: version
     type: string
   - name: repository
-    type: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+    type: string
+    default: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
   - name: dockerRepo
     type: string
     default: {{ .Values.dockerRegistry }}
