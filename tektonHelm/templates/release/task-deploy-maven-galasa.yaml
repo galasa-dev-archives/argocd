@@ -11,10 +11,8 @@ spec:
     type: string
   - name: repository
     type: string
-    default: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
   - name: dockerRepo
     type: string
-    default: {{ .Values.dockerRegistry }}
   steps: 
   - name: deploy-maven
     image: $(params.dockerRepo)/galasadev/galasa-maven-obr:{{ .Values.branch }}
