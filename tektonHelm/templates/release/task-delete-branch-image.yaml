@@ -1,0 +1,46 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: delete-branch-image
+spec:
+  params:
+  - name: distBranch
+    type: string
+  - name: image
+    type: string
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+#
+#
+#
+  steps: 
+#
+#
+#
+  - name: delete-branch-image
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - galasabld
+    - harbor
+    - deleteimage
+    - --harbor
+    - $(params.dockerRepo)
+    - --project
+    - galasadev
+    - --repository
+    - $(params.image)
+    - --tag
+    - $(params.distBranch)
+    - --credentials
+    - /workspace/creds/harborcreds.yaml
+    volumeMounts:
+    - name: harborcreds
+      mountPath: /workspace/creds
+  volumes:
+    - name: harborcreds
+      secret:
+        secretName: harbor-creds
