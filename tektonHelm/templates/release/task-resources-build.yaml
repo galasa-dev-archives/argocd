@@ -32,6 +32,33 @@ spec:
 #
 #
   steps:
+  - name: ls1
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - ls
+    - -al
+    - /workspace
+  - name: ls2
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - ls
+    - -al
+    - /workspace/git
+  - name: ls3
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - ls
+    - -al
+    - /workspace/git/docker
+  - name: ls4
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - ls
+    - -al
+    - /workspace/git/docker/resources
+#
+#
+#
   - name: docker-build-resources
     workingDir: /workspace/git/docker/resources
     image: $(params.dockerRepo)/common/kaniko-project/executor:latest
