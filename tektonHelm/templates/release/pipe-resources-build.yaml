@@ -1,0 +1,40 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: resources-build
+#
+#
+#
+spec:
+#
+#
+#
+  params:
+  - name: distBranch
+    type: string
+    default: {{ .Values.branch }}
+  - name: version
+    type: string
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+#
+#
+#
+  tasks:
+#
+#
+#
+  - name: build-resources
+    taskRef: 
+      name: resources-build
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: version
+      value: $(params.version)
+    - name: dockerRepo
+      value: $(params.dockerRepo)

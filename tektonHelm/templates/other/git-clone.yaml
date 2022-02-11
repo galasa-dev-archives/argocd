@@ -1,6 +1,3 @@
-#
-# Copyright contributors to the Tekton project 
-#
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:

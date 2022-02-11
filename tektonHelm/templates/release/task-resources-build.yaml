@@ -1,0 +1,54 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: resources-build
+#
+#
+#
+spec:
+#
+#
+#
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+#
+#
+#
+  params:
+  - name: distBranch
+    type: string
+  - name: version
+    type: string
+  - name: dockerRepo
+    type: string
+  - name: noPush
+    type: string
+    default: ""
+#
+#
+#
+  steps:
+  - name: docker-build-resources
+    workingDir: /workspace/git/docker/resources
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/docker/resources
+    - --destination=$(params.dockerRepo)/galasadev/galasa-resources:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git/docker/resources/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=distBranch=$(params.distBranch)
+    - --build-arg=version=$(params.version)
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
