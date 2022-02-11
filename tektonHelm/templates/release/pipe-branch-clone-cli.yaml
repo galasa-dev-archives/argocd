@@ -4,7 +4,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: branch-clone-kubernetes-operator
+  name: branch-clone-cli
 spec:
   params:
   - name: distBranch
@@ -24,7 +24,7 @@ spec:
 #
 #
 #
-  - name: clone-branch-kubernetes-operator
+  - name: clone-branch-cli
     taskRef: 
       name: clone-branch
     params:
