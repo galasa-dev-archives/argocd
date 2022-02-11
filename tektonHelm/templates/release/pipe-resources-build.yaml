@@ -61,6 +61,9 @@ spec:
       name: resources-build
     runAfter:
     - clone-docker
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
     params:
     - name: distBranch
       value: $(params.distBranch)
