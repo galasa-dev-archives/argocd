@@ -29,7 +29,7 @@ spec:
       name: clone-branch
     params:
     - name: repo
-      value: kubernetes-operator
+      value: cli
     - name: distBranch
       value: $(params.distBranch)
     - name: fromBranch
