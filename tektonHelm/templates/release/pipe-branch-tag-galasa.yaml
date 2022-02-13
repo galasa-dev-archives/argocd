@@ -158,3 +158,16 @@ spec:
       value: $(params.distBranch)
     - name: tag
       value: $(params.tag)
+#
+#
+#
+  - name: tag-branch-cli
+    taskRef: 
+      name: tag-branch
+    params:
+    - name: repo
+      value: cli
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: tag
+      value: $(params.tag)

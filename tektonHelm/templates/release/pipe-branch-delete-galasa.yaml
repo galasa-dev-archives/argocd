@@ -14,7 +14,7 @@ spec:
 #
   tasks:
 #
-#
+#######  Argocd
 #
   - name: delete-branch-argocd
     taskRef: 
@@ -25,7 +25,7 @@ spec:
     - name: distBranch
       value: $(params.distBranch)
 #
-#
+#######  wrapping
 #
   - name: delete-branch-wrapping
     taskRef: 
@@ -36,7 +36,7 @@ spec:
     - name: distBranch
       value: $(params.distBranch)
 #
-#
+#######  Gradle
 #
   - name: delete-branch-gradle
     taskRef: 
@@ -49,6 +49,17 @@ spec:
 #
 #
 #
+  - name: delete-image-gradle
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-gradle
+#
+#######  Maven
+#
   - name: delete-branch-maven
     taskRef: 
       name: delete-branch
@@ -59,6 +70,17 @@ spec:
       value: $(params.distBranch)
 #
 #
+#
+  - name: delete-image-maven
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-maven
+#
+#######  Framework
 #
   - name: delete-branch-framework
     taskRef: 
@@ -71,6 +93,17 @@ spec:
 #
 #
 #
+  - name: delete-image-framework
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-framework
+#
+#######  Extensions
+#
   - name: delete-branch-extensions
     taskRef: 
       name: delete-branch
@@ -81,6 +114,17 @@ spec:
       value: $(params.distBranch)
 #
 #
+#
+  - name: delete-image-extensions
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-extensions
+#
+#######  Managers
 #
   - name: delete-branch-managers
     taskRef: 
@@ -93,6 +137,17 @@ spec:
 #
 #
 #
+  - name: delete-image-managers
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-managers
+#
+#######  Obr
+#
   - name: delete-branch-obr
     taskRef: 
       name: delete-branch
@@ -103,6 +158,72 @@ spec:
       value: $(params.distBranch)
 #
 #
+#
+  - name: delete-image-boot-ibm
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-ibm-boot-embedded-amd64
+#
+#
+#
+  - name: delete-image-boot
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-boot-embedded-amd64
+#
+#
+#
+  - name: delete-image-obr-generic
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-obr-generic
+#
+#
+#
+  - name: delete-image-javadocs
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-javadocs
+#
+#
+#
+  - name: delete-image-obr
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-obr
+#
+#
+#
+  - name: delete-image-javadoc-maven
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-javadoc  
+#
+#######  Eclipse
 #
   - name: delete-branch-eclipse
     taskRef: 
@@ -115,6 +236,28 @@ spec:
 #
 #
 #
+  - name: delete-image-p2
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-p2
+#
+#
+#
+  - name: delete-image-eclipse-maven
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-eclipse
+#
+#######  Isolated
+#
   - name: delete-branch-isolated
     taskRef: 
       name: delete-branch
@@ -126,6 +269,50 @@ spec:
 #
 #
 #
+  - name: delete-image-isolated
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-isolated
+#
+#
+#
+  - name: delete-image-mvp
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-mvp
+#
+#
+#
+  - name: delete-image-isolated-maven
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-isolated
+#
+#
+#
+  - name: delete-image-mvp-maven
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-mvp
+#
+#######  Docker
+#
   - name: delete-branch-docker
     taskRef: 
       name: delete-branch
@@ -134,3 +321,47 @@ spec:
       value: docker
     - name: distBranch
       value: $(params.distBranch)
+#
+#######  CLI
+#
+  - name: delete-branch-cli
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: cli
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-image-cli-amd64
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-cli-amd64
+#
+#
+#
+  - name: delete-image-cli-ibm-amd64
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-cli-ibm-amd64
+#
+#
+#
+  - name: delete-image-cli-binary
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-cli-binary
