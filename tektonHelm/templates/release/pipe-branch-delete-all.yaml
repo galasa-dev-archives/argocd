@@ -365,3 +365,47 @@ spec:
       value: $(params.distBranch)
     - name: image
       value: galasa-cli-binary
+#
+#######  Docker Operator
+#
+  - name: delete-branch-docker-operator
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: docker-operator
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-image-docker-operator-amd64
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-docker-operator-amd64
+#
+#######  Kubernetes Operator
+#
+  - name: delete-branch-kubernetes-operator
+    taskRef: 
+      name: delete-branch
+    params:
+    - name: repo
+      value: kubernetes-operator
+    - name: distBranch
+      value: $(params.distBranch)
+#
+#
+#
+  - name: delete-image-kubernetes-operator-amd64
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-kubernetes-operator-amd64
