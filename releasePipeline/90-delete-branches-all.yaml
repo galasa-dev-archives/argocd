@@ -10,7 +10,7 @@ metadata:
     argocd.argoproj.io/sync-options: Prune=false
 spec:
   pipelineRef:
-    name: branch-delete-galasa
+    name: branch-delete-all
   params:
   - name: distBranch
     value: "release"

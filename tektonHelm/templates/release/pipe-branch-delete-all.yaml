@@ -4,7 +4,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: branch-delete-galasa
+  name: branch-delete-all
 spec:
   params:
   - name: distBranch
