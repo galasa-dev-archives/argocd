@@ -409,3 +409,14 @@ spec:
       value: $(params.distBranch)
     - name: image
       value: galasa-kubernetes-operator-amd64
+#
+#######  Resources
+#
+  - name: delete-image-resources
+    taskRef: 
+      name: delete-branch-image
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-resources
