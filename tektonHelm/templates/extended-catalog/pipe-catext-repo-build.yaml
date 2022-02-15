@@ -36,6 +36,8 @@ spec:
     default: ""
 #
 #
+### Tasks are single threaded to keep resource usage low
+#
 #
   tasks:
 #########################################################################
@@ -86,6 +88,7 @@ spec:
       name: catext-mq-build
     runAfter:
     - clone-catext
+    - db2-build
     params:
     - name: distBranch
       value: $(params.distBranch)
@@ -104,6 +107,7 @@ spec:
       name: catext-cicswebui-build
     runAfter:
     - clone-catext
+    - mq-build
     params:
     - name: distBranch
       value: $(params.distBranch)
@@ -122,6 +126,7 @@ spec:
       name: catext-dispatch-build
     runAfter:
     - clone-catext
+    - cicswebui-build
     params:
     - name: distBranch
       value: $(params.distBranch)
@@ -142,6 +147,7 @@ spec:
       name: catext-api-build
     runAfter:
     - clone-catext
+    - dispatch-build
     params:
     - name: distBranch
       value: $(params.distBranch)
@@ -162,6 +168,7 @@ spec:
       name: catext-frontend-build
     runAfter:
     - clone-catext
+    - api-build
     params:
     - name: distBranch
       value: $(params.distBranch)

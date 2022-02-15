@@ -35,6 +35,7 @@ kubectl get secret gpggradle --namespace=galasa-tekton -o json | jq 'del(.metada
 kubectl get secret mavengpg --namespace=galasa-tekton -o json | jq 'del(.metadata.namespace,.metadata.resourceVersion,.metadata.uid, .metadata.creationTimestamp, .metadata.selfLink)' | kubectl apply --namespace=galasa-branch-$targetBranch -f -
 kubectl get secret harbor-user-pass --namespace=galasa-tekton -o json | jq 'del(.metadata.namespace,.metadata.resourceVersion,.metadata.uid, .metadata.creationTimestamp, .metadata.selfLink)' | kubectl apply --namespace=galasa-branch-$targetBranch -f -
 kubectl get secret galasadev-cert --namespace=galasa-branch-prod -o json | jq 'del(.metadata.namespace,.metadata.resourceVersion,.metadata.uid, .metadata.creationTimestamp, .metadata.selfLink)' | kubectl apply --namespace=galasa-branch-$targetBranch -f -
+kubectl get secret clone-github-creds --namespace=galasa-branch-prod -o json | jq 'del(.metadata.namespace,.metadata.resourceVersion,.metadata.uid, .metadata.creationTimestamp, .metadata.selfLink)' | kubectl apply --namespace=galasa-branch-$targetBranch -f -
 
 argocd app create galasa-$targetBranch-tekton \
                   --project galasa \

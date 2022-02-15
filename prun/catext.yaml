@@ -34,3 +34,6 @@ spec:
         resources:
           requests:
             storage: 5Gi
+  - name: github-creds
+    secret:
+      secretName: clone-github-creds
