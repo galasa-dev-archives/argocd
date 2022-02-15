@@ -72,8 +72,6 @@ spec:
       value: $(params.distBranch)
     - name: harborRepo
       value: $(params.harborRepo)
-    - name: mavenCentralRepo
-      value: $(params.mavenCentralRepo)
     - name: noPush
       value: $(params.noPush)
     workspaces:
@@ -150,6 +148,8 @@ spec:
       value: $(params.harborRepo)
     - name: noPush
       value: $(params.noPush)
+    - name: mavenCentralRepo
+      value: $(params.mavenCentralRepo)
     workspaces:
      - name: git-workspace
        workspace: git-workspace
