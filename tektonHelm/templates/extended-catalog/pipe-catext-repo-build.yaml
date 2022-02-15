@@ -54,8 +54,6 @@ spec:
       value: "99999999"
     - name: subdirectory
       value: extended-catalog
-    - name: gitInitImage
-      value: "harbor-cicsk8s.hursley.ibm.com/common/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.21.0"
     workspaces:
      - name: output
        workspace: git-workspace
