@@ -20,8 +20,10 @@ spec:
   params:
   - name: distBranch
     type: string
+    default: {{ .Values.branch }}
   - name: refspec
     type: string
+    default: +refs/heads/{{ .Values.branch }}:refs/heads/{{ .Values.branch }}
   - name: harborRepo
     type: string
     default: {{ .Values.dockerRegistry }}
