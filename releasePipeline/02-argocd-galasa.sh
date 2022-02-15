@@ -5,6 +5,8 @@ set -e
 argocd app create galasa-release-tekton \
                   --project galasa \
                   --sync-policy auto \
+                  --sync-option Prune=true \
+                  --self-heal \
                   --repo https://github.com/galasa-dev/argocd \
                   --revision HEAD  \
                   --path tektonHelm \

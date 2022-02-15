@@ -11,6 +11,6 @@ metadata:
 spec:
   params:
   - name: version
-    value: "0.20.0"
+    value: "x.xx.x"
   pipelineRef:
     name: deploy-maven-galasa

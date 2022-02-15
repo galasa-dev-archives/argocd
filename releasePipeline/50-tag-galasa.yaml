@@ -24,4 +24,4 @@ spec:
 #  Tag must be in the format v0.0.0
 #
   - name: tag
-    value: "v0.0.0"
+    value: "vx.xx.x"
