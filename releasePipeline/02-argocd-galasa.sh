@@ -18,6 +18,7 @@ argocd app create galasa-release-tekton \
 argocd app create galasa-release-repo \
                   --project galasa \
                   --sync-policy auto \
+                  --sync-option Prune=true \
                   --repo https://github.com/galasa-dev/argocd \
                   --revision HEAD  \
                   --path repositoryHelm \
