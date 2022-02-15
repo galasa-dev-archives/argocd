@@ -14,7 +14,6 @@ spec:
 #
   workspaces:
   - name: git-workspace
-    optional: false
 #
 #
 #
