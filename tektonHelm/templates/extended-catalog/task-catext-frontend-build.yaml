@@ -1,0 +1,86 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: catext-frontend-build
+#
+#
+#
+spec:
+#
+#
+#
+  workspaces:
+  - name: git-workspace
+    optional: false
+    mountpath: /workspace/git
+#
+#
+#
+  params:
+  - name: distBranch
+    type: string
+  - name: harborRepo
+    type: string
+  - name: noPush
+    type: string
+#
+#
+#
+  steps:
+#
+#
+#
+  - name: get-commit
+    workingDir: /workspace/git/extended-catalog/dispatch-app
+    image: $(params.harborRepo)/galasadev/galasa-build
+    script: |
+      #!/bin/sh
+      set +e
+      COMMIT="$(git log --format="%H" -n 1)"
+      sed -i "s/gitcommithash/$COMMIT/g" src/index.html
+      echo commit is $COMMIT
+#
+#
+#
+  - name: npm-install
+    workingDir: /workspace/git/extended-catalog/dispatch-app
+    image: $(params.harborRepo)/galasadev/galasa-build
+    command:
+    - npm
+    - install
+    - --unsafe-perm=true
+#
+#
+#
+  - name: build-webui
+    workingDir: /workspace/git/extended-catalog/dispatch-app
+    image: $(params.harborRepo)/galasadev/galasa-build
+    command:
+    - ng
+    - build
+    - --prod
+    - --base-href=/ExampleApp/
+#
+#
+#
+  - name: docker
+    workingDir: /workspace/git/extended-catalog/dispatch-app
+    image: $(params.harborRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/extended-catalog/dispatch-app
+    - --destination=$(params.harborRepo)/galasadev/demo-catext-frontend-amd64:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git/extended-catalog/docker/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=dockerRepository=$(params.harborRepo)/dockerhub

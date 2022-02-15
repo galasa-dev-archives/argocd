@@ -1,0 +1,172 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: catext-repo-build
+#
+#
+#
+spec:
+#
+#
+#
+  workspaces:
+  - name: git-workspace
+    optional: false
+#
+#
+#
+  params:
+  - name: distBranch
+    type: string
+  - name: refspec
+    type: string
+  - name: harborRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+  - name: mavenCentralRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
+  - name: noPush
+    type: string
+    default: ""
+#
+#
+#
+  tasks:
+#########################################################################
+### Git Clone                                                         ###
+#########################################################################
+  - name: clone-catext
+    taskRef: 
+      name: git-clone
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/extended-catalog
+    - name: revision
+      value: $(params.distBranch)
+    - name: refspec
+      value: $(params.refspec)
+    - name: depth
+      value: "99999999"
+    - name: subdirectory
+      value: extended-catalog
+    - name: gitInitImage
+      value: "harbor-cicsk8s.hursley.ibm.com/common/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.21.0"
+    workspaces:
+     - name: output
+       workspace: git-workspace
+#########################################################################
+### Db2 Build                                                         ###
+#########################################################################
+  - name: db2-build
+    taskRef:
+      name: catext-db2-build
+    runAfter:
+    - clone-catext
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: harborRepo
+      value: $(params.harborRepo)
+    - name: mavenCentralRepo
+      value: $(params.mavenCentralRepo)
+    - name: noPush
+      value: $(params.noPush)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#########################################################################
+### MQ Build                                                          ###
+#########################################################################
+  - name: mq-build
+    taskRef:
+      name: catext-mq-build
+    runAfter:
+    - clone-catext
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: harborRepo
+      value: $(params.harborRepo)
+    - name: noPush
+      value: $(params.noPush)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#########################################################################
+### CICS Web UI Build                                                 ###
+#########################################################################
+  - name: cicswebui-build
+    taskRef:
+      name: catext-cicswebui-build
+    runAfter:
+    - clone-catext
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: harborRepo
+      value: $(params.harborRepo)
+    - name: noPush
+      value: $(params.noPush)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#########################################################################
+### Dispatch App                                                      ###
+#########################################################################
+  - name: dispatch-build
+    taskRef:
+      name: catext-dispatch-build
+    runAfter:
+    - clone-catext
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: harborRepo
+      value: $(params.harborRepo)
+    - name: mavenCentralRepo
+      value: $(params.mavenCentralRepo)
+    - name: noPush
+      value: $(params.noPush)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#########################################################################
+### API App                                                           ###
+#########################################################################
+  - name: api-build
+    taskRef:
+      name: catext-api-build
+    runAfter:
+    - clone-catext
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: harborRepo
+      value: $(params.harborRepo)
+    - name: noPush
+      value: $(params.noPush)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#########################################################################
+### FrontEnd App                                                      ###
+#########################################################################
+  - name: frontend-build
+    taskRef:
+      name: catext-frontend-build
+    runAfter:
+    - clone-catext
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: harborRepo
+      value: $(params.harborRepo)
+    - name: noPush
+      value: $(params.noPush)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace

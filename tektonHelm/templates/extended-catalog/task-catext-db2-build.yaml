@@ -1,0 +1,65 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: catext-db2-build
+#
+#
+#
+spec:
+#
+#
+#
+  workspaces:
+  - name: git-workspace
+    optional: false
+    mountpath: /workspace/git
+#
+#
+#
+  params:
+  - name: distBranch
+    type: string
+  - name: harborRepo
+    type: string
+  - name: noPush
+    type: string
+#
+#
+#
+  steps:
+#
+#
+#
+  - name: commit
+    workingDir: /workspace/git/extended-catalog/db2
+    image: $(params.harborRepo)/galasadev/galasa-build
+    script: |
+      #!/bin/sh
+      set +e
+      COMMIT="$(git log --format="%H" -n 1)"
+      echo $COMMIT > /workspace/git/extended-catalog/db2/db2.githash
+      echo commit is $COMMIT
+#
+#
+#
+  - name: docker
+    workingDir: /workspace/git/extended-catalog/db2
+    image: $(params.harborRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/extended-catalog/db2
+    - --destination=$(params.harborRepo)/galasadev/demo-catext-db2-amd64:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git/extended-catalog/docker/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=dockerRepository=$(params.harborRepo)/dockerhub
