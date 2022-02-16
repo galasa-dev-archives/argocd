@@ -43,9 +43,9 @@ spec:
 #
 #
 #
-  - name: snapshot-amd64
+  - name: snapshot-api
     taskRef:
-      name: snapshot-api
+      name: snapshot-generic
     runAfter:
     - clone-argocd
     params:
@@ -61,9 +61,9 @@ spec:
 #
 #
 #
-  - name: snapshot-amd64
+  - name: snapshot-cicswebui
     taskRef:
-      name: snapshot-cicswebui
+      name: snapshot-generic
     runAfter:
     - clone-argocd
     params:
@@ -79,9 +79,9 @@ spec:
 #
 #
 #
-  - name: snapshot-amd64
+  - name: snapshot-db2
     taskRef:
-      name: snapshot-db2
+      name: snapshot-generic
     runAfter:
     - clone-argocd
     params:
@@ -97,9 +97,9 @@ spec:
 #
 #
 #
-  - name: snapshot-amd64
+  - name: snapshot-dispatch
     taskRef:
-      name: snapshot-dispatch
+      name: snapshot-generic
     runAfter:
     - clone-argocd
     params:
@@ -115,9 +115,9 @@ spec:
 #
 #
 #
-  - name: snapshot-amd64
+  - name: snapshot-frontend
     taskRef:
-      name: snapshot-frontend
+      name: snapshot-generic
     runAfter:
     - clone-argocd
     params:
@@ -133,9 +133,9 @@ spec:
 #
 #
 #
-  - name: snapshot-amd64
+  - name: snapshot-mq
     taskRef:
-      name: snapshot-mq
+      name: snapshot-generic
     runAfter:
     - clone-argocd
     params:
