@@ -24,8 +24,6 @@ spec:
   - name: clone-argocd
     taskRef: 
       name: git-clone
-    runAfter:
-    - clone-argocd
     params:
     - name: url
       value: https://github.com/galasa-dev/argocd
