@@ -9,6 +9,7 @@ targetBranch=$1
 argocd app delete -y galasa-$targetBranch-tekton
 argocd app delete -y galasa-$targetBranch-repo
 argocd app delete -y cli-$targetBranch-repo
+argocd app delete -y bld-$targetBranch-repo
 argocd app delete -y catext-$targetBranch-app
 
 galasabld github branch delete --credentials githubcreds.yaml --repository gradle            --branch $targetBranch 
