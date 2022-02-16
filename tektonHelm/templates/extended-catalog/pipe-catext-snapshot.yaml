@@ -1,0 +1,150 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: catext-snapshot
+spec:
+  workspaces:
+  - name: git-workspace
+  params:
+  - name: distBranch
+    type: string
+  - name: oldBranch
+    type: string
+    default: {{ .Values.branch }}
+#
+#
+#
+  tasks:
+#
+#
+#
+  - name: clone-argocd
+    taskRef: 
+      name: git-clone
+    runAfter:
+    - clone-argocd
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/argocd
+    - name: revision
+      value: main
+    - name: refspec
+      value: +refs/heads/main:refs/heads/main
+    - name: depth
+      value: "1"
+    - name: subdirectory
+      value: argocd
+    workspaces:
+     - name: output
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-amd64
+    taskRef:
+      name: snapshot-api
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: demo-catext-api-amd64 
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-amd64
+    taskRef:
+      name: snapshot-cicswebui
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: demo-catext-cicswebui-amd64 
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-amd64
+    taskRef:
+      name: snapshot-db2
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: demo-catext-db2-amd64 
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-amd64
+    taskRef:
+      name: snapshot-dispatch
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: demo-catext-dispatch-amd64 
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-amd64
+    taskRef:
+      name: snapshot-frontend
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: demo-catext-frontend-amd64 
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-amd64
+    taskRef:
+      name: snapshot-mq
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: oldBranch
+      value: $(params.oldBranch)
+    - name: image
+      value: demo-catext-mq-amd64 
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
