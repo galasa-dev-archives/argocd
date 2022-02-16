@@ -264,7 +264,7 @@ spec:
     - /workspace/git/isolated/full/target/isolated/isolated.tar
     - --dockerfile=./Dockerfile
     - --context=/workspace/git/isolated/full
-    - --destination=galasadev/galasa-distribution:latest
+    - --destination=icr.io/galasadev/galasa-distribution:latest
     - --oci-layout-path=/workspace/git/isolated/full/image-digest
     - --skip-tls-verify
     - --skip-tls-verify-pull
