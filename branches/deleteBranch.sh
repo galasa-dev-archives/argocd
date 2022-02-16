@@ -6,6 +6,11 @@ if [ "main" == $1 ]; then echo "Must not delete main"; exit; fi
 
 targetBranch=$1
 
+argocd app delete -y galasa-$targetBranch-tekton
+argocd app delete -y galasa-$targetBranch-repo
+argocd app delete -y cli-$targetBranch-repo
+argocd app delete -y catext-$targetBranch-app
+
 galasabld github branch delete --credentials githubcreds.yaml --repository gradle            --branch $targetBranch 
 galasabld github branch delete --credentials githubcreds.yaml --repository maven             --branch $targetBranch 
 galasabld github branch delete --credentials githubcreds.yaml --repository framework         --branch $targetBranch 
@@ -57,11 +62,6 @@ galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://har
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository demo-catext-dispatch-amd64       --tag $targetBranch
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository demo-catext-frontend-amd64       --tag $targetBranch
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository demo-catext-mq-amd64             --tag $targetBranch
-
-argocd app delete galasa-$targetBranch-tekton
-argocd app delete galasa-$targetBranch-repo
-argocd app delete cli-$targetBranch-repo
-argocd app delete catext-$targetBranch-repo
 
 echo "deleting namespace"
 kubectl delete namespace galasa-branch-$targetBranch --wait=false
