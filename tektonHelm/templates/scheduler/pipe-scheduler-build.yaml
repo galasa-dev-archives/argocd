@@ -62,6 +62,8 @@ spec:
     params:
     - name: distBranch
       value: $(params.distBranch)
+    - name: dockerRepo
+      value: $(params.dockerRepo)
     - name: noPush
       value: $(params.noPush)
     workspaces:
