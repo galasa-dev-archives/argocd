@@ -1,0 +1,86 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: scheduler-build
+#
+#
+#
+spec:
+#
+#
+#
+  workspaces:
+  - name: git-workspace
+#
+#
+#
+  params:
+  - name: distBranch
+    type: string
+    default: {{ .Values.branch }}
+  - name: refspec
+    type: string
+    default: +refs/heads/{{ .Values.branch }}:refs/heads/{{ .Values.branch }}
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+  - name: noPush
+    type: string
+    default: ""
+#
+#
+#
+  tasks:
+  - name: clone-scheduler
+    taskRef: 
+      name: git-clone
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/scheduler
+    - name: revision
+      value: $(params.distBranch)
+    - name: refspec
+      value: $(params.refspec)
+    - name: depth
+      value: "99999999"
+    - name: subdirectory
+      value: scheduler
+    workspaces:
+     - name: output
+       workspace: git-workspace
+#
+#
+#
+  - name: scheduler
+    taskRef:
+      name: scheduler-build
+    runAfter:
+    - clone-scheduler
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: noPush
+      value: $(params.noPush)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+#  - name: recycle-deployment
+#    taskRef:
+#      name: recycle-deployment
+#    runAfter:
+#    - galasactl
+#    when:
+#    - input: "$(params.noPush)"
+#      operator: notin
+#      values: ["--no-push"]
+#    params:
+#    - name: namespace
+#      value: galasa-branch-$(params.distBranch)
+#    - name: deployment
+#      value: binary-cli
