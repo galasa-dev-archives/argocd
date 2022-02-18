@@ -442,8 +442,8 @@ spec:
     params:
     - name: distBranch
       value: $(params.distBranch)
-    - name: eclipseRepo
-      value: https://nexus.cics-ts.hur.hdclab.intranet.ibm.com/repository/photon/
+#    - name: eclipseRepo
+#      value: https://nexus.cics-ts.hur.hdclab.intranet.ibm.com/repository/photon/
     - name: simplatformSourceRepo
       value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.simplatformBranch)/maven/simplatform/
     - name: runtimeSourceRepo
