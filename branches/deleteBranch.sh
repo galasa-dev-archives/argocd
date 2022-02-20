@@ -27,6 +27,7 @@ galasabld github branch delete --credentials githubcreds.yaml --repository argoc
 galasabld github branch delete --credentials githubcreds.yaml --repository integrationtests  --branch $targetBranch 
 galasabld github branch delete --credentials githubcreds.yaml --repository simplatform       --branch $targetBranch 
 galasabld github branch delete --credentials githubcreds.yaml --repository extended-catalog  --branch $targetBranch 
+galasabld github branch delete --credentials githubcreds.yaml --repository scheduler         --branch $targetBranch 
 
 
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-maven-gradle              --tag $targetBranch
@@ -56,6 +57,13 @@ galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://har
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-mvp                       --tag $targetBranch
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-docker-operator-amd64     --tag $targetBranch
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-kubernetes-operator-amd64 --tag $targetBranch
+
+galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-scheduler-cli-amd64       --tag $targetBranch
+galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-scheduler-cli-ibm-amd64   --tag $targetBranch
+galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-scheduler-cli-binary      --tag $targetBranch
+galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-scheduler-repo            --tag $targetBranch
+galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-scheduler-api-amd64       --tag $targetBranch
+galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-scheduler-amd64           --tag $targetBranch
 
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository demo-catext-api-amd64            --tag $targetBranch
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository demo-catext-cicswebui-amd64      --tag $targetBranch

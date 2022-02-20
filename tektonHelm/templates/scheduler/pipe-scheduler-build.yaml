@@ -24,9 +24,21 @@ spec:
   - name: refspec
     type: string
     default: +refs/heads/{{ .Values.branch }}:refs/heads/{{ .Values.branch }}
+  - name: mavenCentralRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
+  - name: mavenSourceRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
   - name: dockerRepo
     type: string
     default: {{ .Values.dockerRegistry }}
+  - name: jacocoEnabled
+    type: string
+    default: "false"
+  - name: isRelease
+    type: string
+    default: "false"
   - name: noPush
     type: string
     default: ""
@@ -54,7 +66,7 @@ spec:
 #
 #
 #
-  - name: scheduler
+  - name: scheduler-build
     taskRef:
       name: scheduler-build
     runAfter:
@@ -62,6 +74,16 @@ spec:
     params:
     - name: distBranch
       value: $(params.distBranch)
+    - name: mavenCentralRepo
+      value: $(params.mavenCentralRepo)
+    - name: mavenSourceRepo
+      value: $(params.mavenSourceRepo)
+    - name: noPush
+      value: $(params.noPush)
+    - name: jacocoEnabled
+      value: $(params.jacocoEnabled)
+    - name: isRelease
+      value: $(params.isRelease)
     - name: dockerRepo
       value: $(params.dockerRepo)
     - name: noPush
@@ -72,17 +94,34 @@ spec:
 #
 #
 #
-#  - name: recycle-deployment
-#    taskRef:
-#      name: recycle-deployment
-#    runAfter:
-#    - galasactl
-#    when:
-#    - input: "$(params.noPush)"
-#      operator: notin
-#      values: ["--no-push"]
-#    params:
-#    - name: namespace
-#      value: galasa-branch-$(params.distBranch)
-#    - name: deployment
-#      value: binary-cli
+  - name: recycle-cli-binary
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - scheduler-build
+    when:
+    - input: "$(params.noPush)"
+      operator: notin
+      values: ["--no-push"]
+    params:
+    - name: namespace
+      value: galasa-branch-$(params.distBranch)
+    - name: deployment
+      value: binary-scheduler-cli
+#
+#
+#
+  - name: recycle-scheduler-maven
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - scheduler-build
+    when:
+    - input: "$(params.noPush)"
+      operator: notin
+      values: ["--no-push"]
+    params:
+    - name: namespace
+      value: galasa-branch-$(params.distBranch)
+    - name: deployment
+      value: maven-scheduler-repo

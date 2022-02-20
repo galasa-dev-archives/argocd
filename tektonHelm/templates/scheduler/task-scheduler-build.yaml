@@ -21,7 +21,15 @@ spec:
   params:
   - name: distBranch
     type: string
+  - name: mavenCentralRepo
+    type: string
+  - name: mavenSourceRepo
+    type: string
   - name: dockerRepo
+    type: string
+  - name: jacocoEnabled
+    type: string
+  - name: isRelease
     type: string
   - name: noPush
     type: string
@@ -32,35 +40,41 @@ spec:
 #
 #
 #
-#  - name: generate-api
-#    workingDir: /workspace/git/cli
-#    image: $(params.dockerRepo)/galasadev/galasa-build
-#    command:
-#    - java
-#    - -jar
-#    - /opt/openapi/openapi-generator-cli.jar
-#    - generate
-#    - -i
-#    - /workspace/git/framework/openapi.yaml
-#    - -g
-#    - go 
-#    - -o
-#    - pkg/galasaapi
-#    - --additional-properties=packageName=galasaapi
-#  - name: clear-mod
-#    workingDir: /workspace/git/cli/pkg/galasaapi
-#    image: $(params.dockerRepo)/galasadev/galasa-build
-#    command:
-#    - rm
-#    - -v
-#    - go.mod
-#  - name: clear-sum
-#    workingDir: /workspace/git/cli/pkg/galasaapi
-#    image: $(params.dockerRepo)/galasadev/galasa-build
-#    command:
-#    - rm
-#    - -v
-#    - go.sum
+  - name: generate-api
+    workingDir: /workspace/git/scheduler/cli
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - java
+    - -jar
+    - /opt/openapi/openapi-generator-cli.jar
+    - generate
+    - -i
+    - /workspace/git/scheduler/openapi.yaml
+    - -g
+    - go 
+    - -o
+    - pkg/openapi
+    - --additional-properties=packageName=openapi
+#
+#
+#
+  - name: clear-mod
+    workingDir: /workspace/git/scheduler/cli/pkg/openapi
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - rm
+    - -v
+    - go.mod
+#
+#
+#
+  - name: clear-sum
+    workingDir: /workspace/git/scheduler/cli/pkg/openapi
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - rm
+    - -v
+    - go.sum
 #
 #
 #
@@ -71,7 +85,7 @@ spec:
       #!/bin/sh
       set +e
       COMMIT="$(git log --format="%H" -n 1)"
-      sed -i "s/unknowngithash/${COMMIT}/" /workspace/git/scheduler/pkg/cmd/root.go
+      sed -i "s/unknowngithash/${COMMIT}/" pkg/cmd/root.go
       echo commit is $COMMIT
 #
 #
@@ -84,7 +98,7 @@ spec:
       #!/bin/sh
       set +e
       VERSION="$(cat VERSION)"
-      sed -i "s/unknowncliversion/${VERSION}/" /workspace/git/scheduler/pkg/cmd/root.go
+      sed -i "s/unknowncliversion/${VERSION}/" pkg/cmd/root.go
       echo version is $VERSION
 #
 #
@@ -110,7 +124,7 @@ spec:
     - --context=/workspace/git/scheduler/cli
     - --destination=$(params.dockerRepo)/galasadev/galasa-scheduler-cli-amd64:$(params.distBranch)
     - $(params.noPush)
-    - --oci-layout-path=/workspace/git-framework/docker/image-digest
+    - --oci-layout-path=/workspace/git/scheduler/cli/image-digest
     - --skip-tls-verify
     - --skip-tls-verify-pull
     - --single-snapshot
@@ -132,7 +146,7 @@ spec:
     - --context=/workspace/git/scheduler/cli
     - --destination=$(params.dockerRepo)/galasadev/galasa-scheduler-cli-ibm-amd64:$(params.distBranch)
     - $(params.noPush)
-    - --oci-layout-path=/workspace/git-framework/docker/image-digest
+    - --oci-layout-path=/workspace/git/scheduler/cli/image-digest
     - --skip-tls-verify
     - --skip-tls-verify-pull
     - --single-snapshot
@@ -155,10 +169,128 @@ spec:
     - --context=/workspace/git/scheduler/cli
     - --destination=$(params.dockerRepo)/galasadev/galasa-scheduler-cli-binary:$(params.distBranch)
     - $(params.noPush)
-    - --oci-layout-path=/workspace/git-framework/docker/image-digest
+    - --oci-layout-path=/workspace/git/scheduler/cli/image-digest
     - --skip-tls-verify
     - --skip-tls-verify-pull
     - --single-snapshot
     - --verbosity=info
     - --build-arg=branch=$(params.distBranch)
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
+#
+#
+#
+  - name: maven-build
+    workingDir: /workspace/git/scheduler/maven
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgalasa.release.repo=file:/workspace/git/scheduler/maven/repo/
+    - -Dgalasa.jacocoEnabled=$(params.jacocoEnabled)
+    - -Dgalasa.isRelease=$(params.isRelease)
+    - -Dgalasa.source.repo=$(params.mavenSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - --settings
+    - /workspace/git/scheduler/maven/settings.xml
+    - -B
+    - -e
+    - -fae
+    - deploy
+#
+#
+#
+  - name: get-maven-commit
+    workingDir: /workspace/git/scheduler/maven
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    script: |
+      #!/bin/sh
+      set +e
+      COMMIT="$(git log --format="%H" -n 1)"
+      echo $COMMIT > /workspace/git/scheduler/maven/repo/maven.githash
+      echo commit is $COMMIT
+#
+#
+#
+  - name: docker-maven-repo
+    workingDir: /workspace/git/scheduler/maven
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/scheduler/maven
+    - --destination=$(params.dockerRepo)/galasadev/galasa-scheduler-repo:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git/scheduler/maven/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
+#
+#
+#
+  - name: get-api-commit
+    workingDir: /workspace/git/scheduler/maven/dev.galasa.scheduler.api
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    script: |
+      #!/bin/sh
+      set +e
+      COMMIT="$(git log --format="%H" -n 1)"
+      echo $COMMIT > /workspace/git/scheduler/maven/dev.galasa.scheduler.api/git.commit
+      echo commit is $COMMIT
+#
+#
+#
+  - name: docker-api
+    workingDir: /workspace/git/scheduler/maven/dev.galasa.scheduler.api
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/scheduler/maven/dev.galasa.scheduler.api
+    - --destination=$(params.dockerRepo)/galasadev/galasa-scheduler-api-amd64:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git/scheduler/maven/dev.galasa.scheduler.api/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
+#
+#
+#
+  - name: get-scheduler-commit
+    workingDir: /workspace/git/scheduler/maven/dev.galasa.scheduler
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    script: |
+      #!/bin/sh
+      set +e
+      COMMIT="$(git log --format="%H" -n 1)"
+      echo $COMMIT > /workspace/git/scheduler/maven/dev.galasa.scheduler/target/git.commit
+      echo commit is $COMMIT
+#
+#
+#
+  - name: docker-scheduler
+    workingDir: /workspace/git/scheduler/maven/dev.galasa.scheduler
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/scheduler/maven/dev.galasa.scheduler
+    - --destination=$(params.dockerRepo)/galasadev/galasa-scheduler-amd64:$(params.distBranch)
+    - $(params.noPush)
+    - --oci-layout-path=/workspace/git/scheduler/maven/dev.galasa.scheduler/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
     - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
