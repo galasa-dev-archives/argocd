@@ -1,0 +1,74 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: semmodels-build
+#
+#
+#
+spec:
+#
+#
+#
+  workspaces:
+  - name: git-workspace
+  - name: ghe-creds
+#
+#
+#
+  params:
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+#
+#
+#
+  tasks:
+  - name: clone-sem
+    taskRef: 
+      name: git-clone
+    params:
+    - name: url
+      value: https://github.ibm.com/CICS/cicsts-galasa-config.git
+    - name: revision
+      value: main
+    - name: refspec
+      value: +refs/heads/main:refs/heads/main
+    - name: depth
+      value: "1"
+    - name: subdirectory
+      value: sem
+    workspaces:
+     - name: output
+       workspace: git-workspace
+     - name: basic-auth
+       workspace: ghe-creds
+#
+#
+#
+  - name: semmodels
+    taskRef:
+      name: semmodels-build
+    runAfter:
+    - clone-sem
+    params:
+    - name: dockerRepo
+      value: $(params.dockerRepo)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: recycle-deployment
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - semmodels
+    params:
+    - name: namespace
+      value: galasa-prod
+    - name: deployment
+      value: semmodels

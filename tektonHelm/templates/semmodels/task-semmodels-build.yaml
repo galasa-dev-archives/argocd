@@ -1,0 +1,32 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: semmodels-build
+spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+  params:
+  - name: dockerRepo
+    type: string
+  steps:
+  - name: docker-build-http
+    workingDir: /workspace/git/sem/sem
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile
+    - --context=/workspace/git/sem/sem
+    - --destination=$(params.dockerRepo)/galasadev/galasa-semmodels:prod
+    - --oci-layout-path=/workspace/git-framework/docker/image-digest
+    - --skip-tls-verify
+    - --skip-tls-verify-pull
+    - --single-snapshot
+    - --verbosity=info
+    - --build-arg=dockerRepository=$(params.dockerRepo)/dockerhub
