@@ -94,7 +94,7 @@ spec:
     - --verbosity=info
     - --build-arg=dockerRepository=$(params.dockerRepo)
     - --build-arg=branch=$(params.distBranch)
-    - --build-arg=jdkImage=dockerhub/library/openjdk:8-jdk-alpine
+    - --build-arg=jdkImage=dockerhub/library/openjdk:8-jdk-slim
   - name: ibm-docker-build
     workingDir: /workspace/git/docker/ibmBootEmbedded
     image: $(params.dockerRepo)/common/kaniko-project/executor:latest
