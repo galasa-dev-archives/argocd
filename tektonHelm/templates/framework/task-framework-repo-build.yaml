@@ -5,11 +5,22 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: framework-repo-build
+#
+#
+#
 spec:
+#
+#
+#
   workspaces:
+#
   - name: git-workspace
     mountPath: /workspace/git
+#
+#
+#
   params:
+#
   - name: distBranch
     type: string
   - name: mavenCentralRepo
@@ -31,38 +42,9 @@ spec:
     type: string
     default: "false"
   steps:
-  - name: gpgdirectory
-    workingDir: /workspace
-    image: $(params.dockerRepo)/galasadev/galasa-build
-    command:
-    - mkdir
-    - /workspace/gpg
-  - name: import-gpg
-    workingDir: /workspace
-    image: $(params.dockerRepo)/galasadev/galasa-build
-    command:
-    - gpg
-    - --homedir
-    - /workspace/gpg
-    - --pinentry-mode
-    - loopback
-    - --passphrase-file
-    - /root/mavengpg/galasa.passphrase
-    - --import
-    - /root/mavengpg/galasa.gpg
-    volumeMounts:
-    - name: mavengpg
-      mountPath: /root/mavengpg
-  - name: copy-settings
-    workingDir: /workspace
-    image: $(params.dockerRepo)/galasadev/galasa-build
-    command:
-    - cp
-    - /root/mavengpg/settings.xml
-    - /workspace/gpg/settings.xml
-    volumeMounts:
-    - name: mavengpg
-      mountPath: /root/mavengpg
+#
+#
+#
   - name: gradle-build
     workingDir: /workspace/git/framework/galasa-parent
     image: $(params.dockerRepo)/galasadev/galasa-build
@@ -84,6 +66,9 @@ spec:
     - name: gpggradle
       mountPath: /opt/gradle/gradle-6.8.2/gradle.properties
       subPath: gradle.properties
+#
+#
+#
   - name: get-commit
     workingDir: /workspace/git/framework
     image: $(params.dockerRepo)/galasadev/galasa-build
@@ -93,6 +78,9 @@ spec:
       COMMIT="$(git log --format="%H" -n 1)"
       echo $COMMIT > /workspace/git/framework/docker/framework.githash
       echo commit is $COMMIT
+#
+#
+#
   - name: docker-build
     workingDir: /workspace/git/framework/docker
     image: $(params.dockerRepo)/common/kaniko-project/executor:latest
