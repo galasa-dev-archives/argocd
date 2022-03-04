@@ -1,0 +1,134 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: snapshot-external
+#
+#
+#
+spec:
+#
+  workspaces:
+  - name: git-workspace
+#
+#
+#
+  params:
+  - name: distBranch
+    type: string
+#
+#
+#
+  tasks:
+#
+#
+#
+  - name: clone-argocd
+    taskRef: 
+      name: git-clone
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/argocd
+    - name: revision
+      value: main
+    - name: refspec
+      value: +refs/heads/main:refs/heads/main
+    - name: depth
+      value: "1"
+    - name: subdirectory
+      value: argocd
+    workspaces:
+     - name: output
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-obr
+    taskRef:
+      name: externalise-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-obr
+    - name: externalDockerRepo
+      value: docker.galasa.dev
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-mvp
+    taskRef:
+      name: externalise-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-mvp
+    - name: externalDockerRepo
+      value: docker.galasa.dev
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-isolated
+    taskRef:
+      name: externalise-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-maven-isolated
+    - name: externalDockerRepo
+      value: docker.galasa.dev
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-p2
+    taskRef:
+      name: externalise-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-p2
+    - name: externalDockerRepo
+      value: docker.galasa.dev
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+#
+#
+#
+  - name: snapshot-boot-embedded
+    taskRef:
+      name: externalise-generic
+    runAfter:
+    - clone-argocd
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: image
+      value: galasa-boot-embedded-amd64
+    - name: externalDockerRepo
+      value: docker.galasa.dev
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
