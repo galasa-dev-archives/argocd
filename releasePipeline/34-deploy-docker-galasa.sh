@@ -24,7 +24,7 @@ docker tag harbor-cicsk8s.hursley.ibm.com/galasadev/galasa-p2:$FROM             
 docker tag harbor-cicsk8s.hursley.ibm.com/galasadev/galasa-javadocs:$FROM                  \
            icr.io/galasadev/galasa-javadoc-amd64:$TO
 
-docker tag harbor-cicsk8s.hursley.ibm.com/galasadev/galasa-resources:$FROM       \
+docker tag harbor-cicsk8s.hursley.ibm.com/galasadev/galasa-boot-embedded-amd64:$FROM       \
            icr.io/galasadev/galasa-boot-embedded-amd64:$TO
 
 docker tag harbor-cicsk8s.hursley.ibm.com/galasadev/galasa-resources:$FROM       \
