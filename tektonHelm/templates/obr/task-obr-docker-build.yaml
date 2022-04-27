@@ -6,9 +6,15 @@ kind: Task
 metadata:
   name: obr-docker-build
 spec:
+#
+#
+#
   workspaces:
   - name: git-workspace
     mountPath: /workspace/git
+#
+#
+#
   params:
   - name: distBranch
     type: string
@@ -24,7 +30,13 @@ spec:
   - name: noPush
     type: string
     default: ""
+#
+#
+#
   steps:
+#
+#
+#
   - name: generate-embedded
     workingDir: /workspace/git/docker/obrGeneric
     image: $(params.dockerRepo)/galasadev/galasa-build:latest
@@ -44,6 +56,9 @@ spec:
     - --output
     - pom.xml 
     - --obr
+#
+#
+#
   - name: obr-embed
     workingDir: /workspace/git/docker/obrGeneric
     image: $(params.dockerRepo)/galasadev/galasa-build
@@ -58,6 +73,9 @@ spec:
     - -fae
     - process-sources
     - dev.galasa:galasa-maven-plugin:0.15.0:obrembedded
+#
+#
+#
   - name: generic-docker-build
     workingDir: /workspace/git/docker/obrGeneric
     image: $(params.dockerRepo)/common/kaniko-project/executor:latest
@@ -75,6 +93,20 @@ spec:
     - --skip-tls-verify-pull
     - --single-snapshot
     - --verbosity=info
+#
+# 
+# 
+  - name: copy-kubectl
+    workingDir: /workspace/git/docker/obrGeneric
+    image: $(params.dockerRepo)/galasadev/galasa-build:latest
+    command:
+    - cp 
+    - -v 
+    - /opt/k8s/bin/kubectl
+    - /workspace/git/docker/bootEmbedded/ 
+#
+#
+#
   - name: amd64-docker-build
     workingDir: /workspace/git/docker/bootEmbedded
     image: $(params.dockerRepo)/common/kaniko-project/executor:latest
@@ -95,6 +127,9 @@ spec:
     - --build-arg=dockerRepository=$(params.dockerRepo)
     - --build-arg=branch=$(params.distBranch)
     - --build-arg=jdkImage=dockerhub/library/openjdk:8-jdk-slim
+#
+#
+#
   - name: ibm-docker-build
     workingDir: /workspace/git/docker/ibmBootEmbedded
     image: $(params.dockerRepo)/common/kaniko-project/executor:latest
