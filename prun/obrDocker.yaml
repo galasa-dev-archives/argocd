@@ -1,0 +1,33 @@
+#
+# Copyright contributors to the Galasa project 
+#
+kind: PipelineRun
+apiVersion: tekton.dev/v1beta1
+metadata:
+  generateName: obrdocker-
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+    argocd.argoproj.io/sync-options: Prune=false
+#
+#
+#
+spec:
+  params:
+#
+#
+#
+  pipelineRef:
+    name: obr-docker-build
+#
+#
+#
+  workspaces:
+  - name: git-workspace
+    volumeClaimTemplate:
+      spec:
+        storageClassName: longhorn-temp
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
