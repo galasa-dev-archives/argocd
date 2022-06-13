@@ -25,6 +25,9 @@ spec:
       - name: maven-framework
         image: {{ .Values.registry }}/galasadev/galasa-maven-framework:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/maven/framework 
         ports:
         - name: http
           containerPort: 80

@@ -24,6 +24,9 @@ spec:
       - name: http
         image: {{ .Values.registry }}/galasadev/galasa-maven-eclipse:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/maven/eclipse 
         ports:
         - containerPort: 80
         resources:

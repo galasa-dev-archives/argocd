@@ -25,6 +25,9 @@ spec:
       - name: maven-gradle
         image: {{ .Values.registry }}/galasadev/galasa-maven-gradle:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/maven/gradle 
         ports:
         - name: http
           containerPort: 80

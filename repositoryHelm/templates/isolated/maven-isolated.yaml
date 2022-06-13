@@ -24,6 +24,9 @@ spec:
       - name: maven-isolated
         image: {{ .Values.registry }}/galasadev/galasa-maven-isolated:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/maven/isolated 
         ports:
         - name: http
           containerPort: 80

@@ -24,6 +24,9 @@ spec:
       - name: maven-mvp
         image: {{ .Values.registry }}/galasadev/galasa-maven-mvp:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/maven/mvp 
         ports:
         - name: http
           containerPort: 80

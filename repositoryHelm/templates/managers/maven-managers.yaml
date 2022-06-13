@@ -25,6 +25,9 @@ spec:
       - name: maven-managers
         image: {{ .Values.registry }}/galasadev/galasa-maven-managers:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/maven/managers 
         ports:
         - name: http
           containerPort: 80

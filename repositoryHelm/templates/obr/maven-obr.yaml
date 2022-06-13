@@ -24,6 +24,9 @@ spec:
       - name: maven-obr
         image: {{ .Values.registry }}/galasadev/galasa-maven-obr:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/maven/obr 
         ports:
         - name: http
           containerPort: 80

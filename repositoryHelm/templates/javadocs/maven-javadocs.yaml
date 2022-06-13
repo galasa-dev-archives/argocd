@@ -24,6 +24,9 @@ spec:
       - name: maven-javadocs
         image: {{ .Values.registry }}/galasadev/galasa-maven-javadoc:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/maven/javadoc 
         ports:
         - name: http
           containerPort: 80
