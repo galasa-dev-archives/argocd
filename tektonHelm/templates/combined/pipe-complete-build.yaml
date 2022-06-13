@@ -28,6 +28,23 @@ spec:
     type: string
     default: ""
   tasks:
+  - name: clone-wrapping
+    taskRef: 
+      name: git-clone
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/wrapping
+    - name: revision
+      value: $(params.distBranch)
+    - name: refspec
+      value: $(params.refspec)
+    - name: depth
+      value: "99999999"
+    - name: subdirectory
+      value: wrapping
+    workspaces:
+     - name: output
+       workspace: git-workspace
   - name: clone-gradle
     taskRef: 
       name: git-clone
@@ -194,11 +211,46 @@ spec:
 #
 #
 #
+  - name: wrapping-compile
+    taskRef:
+      name: wrapping-repo-build
+    runAfter:
+    - clone-wrapping
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: noPush
+      value: $(params.noPush)
+    - name: jacocoEnabled
+      value: $(params.jacocoEnabled)
+    - name: isRelease
+      value: $(params.isRelease)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace
+  - name: recycle-wrapping
+    taskRef:
+      name: recycle-deployment
+    runAfter:
+    - wrapping-compile
+    when:
+    - input: "$(params.noPush)"
+      operator: notin
+      values: ["--no-push"]
+    params:
+    - name: namespace
+      value: galasa-branch-$(params.distBranch)
+    - name: deployment
+      value: maven-wrapping
+#
+#
+#
   - name: gradle-compile
     taskRef:
       name: gradle-repo-build
     runAfter:
     - clone-gradle
+    - recycle-wrapping
     params:
     - name: distBranch
       value: $(params.distBranch)
