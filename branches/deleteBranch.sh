@@ -12,6 +12,7 @@ argocd app delete -y cli-$targetBranch-repo
 argocd app delete -y bld-$targetBranch-repo
 argocd app delete -y catext-$targetBranch-app
 
+galasabld github branch delete --credentials githubcreds.yaml --repository wrapping          --branch $targetBranch 
 galasabld github branch delete --credentials githubcreds.yaml --repository gradle            --branch $targetBranch 
 galasabld github branch delete --credentials githubcreds.yaml --repository maven             --branch $targetBranch 
 galasabld github branch delete --credentials githubcreds.yaml --repository framework         --branch $targetBranch 
@@ -30,6 +31,7 @@ galasabld github branch delete --credentials githubcreds.yaml --repository exten
 galasabld github branch delete --credentials githubcreds.yaml --repository scheduler         --branch $targetBranch 
 
 
+galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-maven-wrapping            --tag $targetBranch
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-maven-gradle              --tag $targetBranch
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-maven-maven               --tag $targetBranch
 galasabld harbor deleteimage --credentials harborcreds.yaml --harbor https://harbor-cicsk8s.hursley.ibm.com --project galasadev --repository galasa-maven-framework           --tag $targetBranch

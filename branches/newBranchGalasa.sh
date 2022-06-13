@@ -16,6 +16,7 @@ fi
 
 kubectl create namespace galasa-branch-$targetBranch
 
+galasabld github branch copy --credentials githubcreds.yaml --repository wrapping          $fromRef --to $targetBranch 
 galasabld github branch copy --credentials githubcreds.yaml --repository gradle            $fromRef --to $targetBranch 
 galasabld github branch copy --credentials githubcreds.yaml --repository maven             $fromRef --to $targetBranch 
 galasabld github branch copy --credentials githubcreds.yaml --repository framework         $fromRef --to $targetBranch 
