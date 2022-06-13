@@ -48,6 +48,8 @@ spec:
   - name: clone-gradle
     taskRef: 
       name: git-clone
+    runAfter:
+    - clone-wrapping
     params:
     - name: url
       value: https://github.com/galasa-dev/gradle
