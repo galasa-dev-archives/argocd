@@ -11,7 +11,7 @@ managersBranch: prod
 
 cliVersion: prod
 
-mavenRepoBaseImageVersion: 0.16.0
+mavenRepoBaseImageVersion: 0.24.0
 
 buildImage: latest
 

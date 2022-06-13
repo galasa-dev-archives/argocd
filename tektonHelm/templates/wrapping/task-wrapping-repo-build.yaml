@@ -21,6 +21,9 @@ spec:
   params:
   - name: distBranch
     type: string
+  - name: mavenBaseVersion
+    type: string
+    default: {{ .Values.mavenRepoBaseImageVersion }}
   - name: mavenCentralRepo
     type: string
     default: {{ .Values.mavenProxy }}
@@ -136,4 +139,4 @@ spec:
     - --single-snapshot
     - --verbosity=info
     - --build-arg=dockerRepository=$(params.dockerRepo)
-    - --build-arg=branch=$(params.distBranch)    
+    - --build-arg=baseVersion=$(params.mavenBaseVersion)
