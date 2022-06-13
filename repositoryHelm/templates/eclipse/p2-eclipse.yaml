@@ -24,6 +24,9 @@ spec:
       - name: http
         image: {{ .Values.registry }}/galasadev/galasa-p2:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/p2
         ports:
         - containerPort: 80
         resources:
