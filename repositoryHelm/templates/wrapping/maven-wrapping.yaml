@@ -25,6 +25,9 @@ spec:
       - name: maven-wrapping
         image: {{ .Values.registry }}/galasadev/galasa-maven-wrapping:{{ .Values.branch }}
         imagePullPolicy: Always
+        env:
+        - name: CONTEXTROOT
+          value: {{ .Values.branch }}/maven/wrapping 
         ports:
         - name: http
           containerPort: 80
