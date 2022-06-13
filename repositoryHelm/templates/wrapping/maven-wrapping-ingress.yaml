@@ -1,0 +1,28 @@
+#
+# Copyright contributors to the Galasa project 
+#
+{{ if eq .Values.endRepositoriesOnly false }}
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: maven-wrapping
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - galasadev-cicsk8s.hursley.ibm.com
+    secretName: galasadev-cert
+  rules:
+  - host: galasadev-cicsk8s.hursley.ibm.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: maven-wrapping
+            port:
+              number: 80
+        path: /{{ .Values.branch}}/maven/maven
+        pathType: Prefix
+{{ end }}
