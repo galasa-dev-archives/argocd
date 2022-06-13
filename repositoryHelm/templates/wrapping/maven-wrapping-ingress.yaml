@@ -23,6 +23,6 @@ spec:
             name: maven-wrapping
             port:
               number: 80
-        path: /{{ .Values.branch}}/maven/maven
+        path: /{{ .Values.branch}}/maven/wrapping
         pathType: Prefix
 {{ end }}
