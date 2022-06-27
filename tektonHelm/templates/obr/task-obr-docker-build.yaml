@@ -126,7 +126,7 @@ spec:
     - --verbosity=info
     - --build-arg=dockerRepository=$(params.dockerRepo)
     - --build-arg=branch=$(params.distBranch)
-    - --build-arg=jdkImage=dockerhub/library/openjdk:8-jdk-slim
+    - --build-arg=jdkImage=dockerhub/library/openjdk:11-jdk-slim
 #
 #
 #
