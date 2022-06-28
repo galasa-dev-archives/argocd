@@ -103,4 +103,4 @@ spec:
     - --single-snapshot
     - --verbosity=info
     - --build-arg=dockerRepository=$(params.dockerRepo)
-    - --build-arg=jdkImage=dockerhub/library/openjdk:8-jdk
+    - --build-arg=jdkImage=dockerhub/library/openjdk:11-jdk
