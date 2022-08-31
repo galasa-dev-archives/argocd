@@ -8,7 +8,6 @@ metadata:
 spec:
   workspaces:
   - name: git-workspace
-    optional: false
   params:
   - name: distBranch
     type: string
