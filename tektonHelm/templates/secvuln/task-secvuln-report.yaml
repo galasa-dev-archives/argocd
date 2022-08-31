@@ -9,7 +9,6 @@ spec:
   workspaces:
   - name: git-workspace
     mountPath: /workspace/git
-    optional: false
   params:
   - name: mainRepo
     type: string
