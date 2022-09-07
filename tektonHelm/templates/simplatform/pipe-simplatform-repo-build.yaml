@@ -73,8 +73,6 @@ spec:
   - name: build-webapp
     taskRef:
       name: webapp-image-build
-    runAfter:
-    - 
     params:
     - name: distBranch
       value: $(params.distBranch)
