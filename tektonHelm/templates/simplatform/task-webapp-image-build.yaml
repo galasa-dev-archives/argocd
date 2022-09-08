@@ -16,7 +16,7 @@ spec:
     type: string
     default: {{ .Values.dockerRegistry }}
   - name: noPush
-    type: strings
+    type: string
     default: ""
   steps:
   - name: build-and-push-webapp-image
