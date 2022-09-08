@@ -54,6 +54,19 @@ spec:
     workspaces:
      - name: git-workspace
        workspace: git-workspace
+   - name: build-webapp
+    taskRef:
+      name: webapp-image-build
+    runAfter:
+    - simplatform  
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: noPush
+      value: $(params.noPush)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace      
   - name: recycle-simplatform
     taskRef:
       name: recycle-deployment
@@ -68,16 +81,4 @@ spec:
       value: galasa-branch-$(params.distBranch)
     - name: deployment
       value: maven-simplatform
-  - name: build-webapp
-    taskRef:
-      name: webapp-image-build
-    runAfter:
-    - simplatform  
-    params:
-    - name: distBranch
-      value: $(params.distBranch)
-    - name: noPush
-      value: $(params.noPush)
-    workspaces:
-     - name: git-workspace
-       workspace: git-workspace
+

@@ -29,8 +29,9 @@ spec:
     - /kaniko/executor
     - --dockerfile=./Dockerfile # path to Dockerfile (from workingDir)
     - --context=/workspace/git/simplatform/galasa-simplatform-application/galasa-simplatform-webapp # directory containing Dockerfile which kaniko will use to build image
-    #- --destination=$(params.dockerRepo)/galasadev/galasa-simplatform-application/simbank-webapp:$(params.distBranch) # where to push the image - should be ICR?
-    - --'no-push'
+    - --no-push
+    - --destination=$(params.dockerRepo)/galasadev/galasa-simplatform-application/simbank-webapp:$(params.distBranch) # where to push the image - should be ICR?
+    
 
 
 
