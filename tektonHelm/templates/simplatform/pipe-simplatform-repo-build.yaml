@@ -58,7 +58,7 @@ spec:
     taskRef:
       name: recycle-deployment
     runAfter:
-    - simplatform
+    - build-webapp
     when:
     - input: "$(params.noPush)"
       operator: notin
@@ -68,11 +68,11 @@ spec:
       value: galasa-branch-$(params.distBranch)
     - name: deployment
       value: maven-simplatform
-
-
   - name: build-webapp
     taskRef:
       name: webapp-image-build
+    runAfter:
+    - simplatform  
     params:
     - name: distBranch
       value: $(params.distBranch)
