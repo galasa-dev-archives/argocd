@@ -44,7 +44,7 @@ spec:
     taskRef:
       name: webapp-image-build 
     runAfter:
-    - simplatform-repo-build  
+    - clone-simplatform 
     params:
     - name: distBranch
       value: $(params.distBranch)
