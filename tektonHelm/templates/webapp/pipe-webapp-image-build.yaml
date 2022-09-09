@@ -1,0 +1,29 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: webapp-image-build-pipe
+spec:
+  workspaces:
+  - name: git-workspace
+  params:
+  - name: distBranch
+    type: string
+    default: {{ .Values.branch }}
+  - name: noPush
+    type: string
+    default: ""
+  tasks:
+  - name: build-webapp
+    taskRef:
+      name: webapp-image-build 
+    params:
+    - name: distBranch
+      value: $(params.distBranch)
+    - name: noPush
+      value: $(params.noPush)
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace  

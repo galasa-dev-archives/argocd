@@ -53,20 +53,7 @@ spec:
       value: $(params.noPush)
     workspaces:
      - name: git-workspace
-       workspace: git-workspace
-  - name: build-webapp
-    taskRef:
-      name: webapp-image-build
-    runAfter:
-    - simplatform  
-    params:
-    - name: distBranch
-      value: $(params.distBranch)
-    - name: noPush
-      value: $(params.noPush)
-    workspaces:
-     - name: git-workspace
-       workspace: git-workspace      
+       workspace: git-workspace    
   - name: recycle-simplatform
     taskRef:
       name: recycle-deployment
