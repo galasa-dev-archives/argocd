@@ -12,6 +12,9 @@ spec:
   - name: distBranch
     type: string
     default: {{ .Values.branch }}
+  - name: managersBranch
+    type: string
+    default: {{ .Values.managersBranch }}  
   - name: refspec
     type: string
     default: +refs/heads/{{ .Values.branch }}:refs/heads/{{ .Values.branch }}  
