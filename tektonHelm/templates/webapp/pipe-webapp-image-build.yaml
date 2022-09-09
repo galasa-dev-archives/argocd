@@ -27,7 +27,7 @@ spec:
       name: git-clone
     params:
     - name: url
-      value: https://github.com/galasa-dev/simplatform
+      value: https://github.com/galasa-dev/simplatform/galasa-simplatform-application/galasa-simplatform-webapp
     - name: revision
       value: $(params.distBranch)
     - name: refspec
@@ -39,21 +39,7 @@ spec:
     workspaces:
      - name: output
        workspace: git-workspace
-  - name: simplatform
-    taskRef:
-      name: simplatform-repo-build
-    runAfter:
-    - clone-simplatform
-    params:
-    - name: distBranch
-      value: $(params.distBranch)
-    - name: managersSourceRepo
-      value: https://galasadev-cicsk8s.hursley.ibm.com/$(params.managersBranch)/maven/obr/
-    - name: noPush
-      value: $(params.noPush)
-    workspaces:
-     - name: git-workspace
-       workspace: git-workspace        
+  
   - name: build-webapp
     taskRef:
       name: webapp-image-build 
