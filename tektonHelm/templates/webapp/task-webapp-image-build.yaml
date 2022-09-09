@@ -12,6 +12,12 @@ spec:
   params:
   - name: distBranch
     type: string
+  - name: mavenCentralRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
+  - name: managersSourceRepo
+    type: string
+    default: {{ .Values.mavenProxy }}
   - name: dockerRepo
     type: string
     default: {{ .Values.dockerRegistry }}
@@ -19,6 +25,30 @@ spec:
     type: string
     default: ""
   steps:
+  - name: get-commit
+    workingDir: /workspace/git/simplatform
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    script: |
+      #!/bin/sh
+      set +e
+      COMMIT="$(git log --format="%H" -n 1)"
+      echo $COMMIT > /workspace/git/simplatform/docker/simplatform.githash
+      echo commit is $COMMIT
+  - name: gradle-build-simplatform
+    workingDir: /workspace/git/simplatform/galasa-simplatform-application
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    - -Dgpg.skip=true
+    - -Dgalasa.release.repo=file:/workspace/git/simplatform/docker/repo
+    - -Dgalasa.source.repo=$(params.managersSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - --settings
+    - /workspace/git/simplatform/settings.xml
+    - -B
+    - -e
+    - -fae
+    - deploy
   - name: build-and-push-webapp-image
     workingDir: /workspace/git/simplatform/galasa-simplatform-application/galasa-simplatform-webapp
     image: $(params.dockerRepo)/common/kaniko-project/executor:latest
