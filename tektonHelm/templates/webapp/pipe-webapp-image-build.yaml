@@ -35,7 +35,7 @@ spec:
     - name: depth
       value: "99999999"
     - name: subdirectory
-      value: simplatform
+      value: simplatform/galasa-simplatform-application/galasa-simplatform-webapp
     workspaces:
      - name: output
        workspace: git-workspace
