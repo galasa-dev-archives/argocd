@@ -16,6 +16,7 @@ spec:
     type: string
   - name: mavenCentralRepo
     type: string
+    default: {{ .Values.mavenProxy }}
   - name: mavenSourceRepo
     type: string
   - name: jacocoEnabled
