@@ -10,8 +10,6 @@ spec:
   - name: git-workspace
     mountPath: /workspace/git
   params:
-  - name: imageName
-    type: string
   - name: context
     type: string
   - name: baseRepo
