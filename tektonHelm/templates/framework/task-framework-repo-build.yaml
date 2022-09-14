@@ -45,27 +45,27 @@ spec:
 #
 #
 #
-  - name: gradle-build
-    workingDir: /workspace/git/framework/galasa-parent
-    image: $(params.dockerRepo)/galasadev/galasa-build
-    command:
-    - gradle
-    - --no-daemon
-    - --console 
-    - plain
-    - -PsourceMaven=$(params.mavenSourceRepo)
-    - -PcentralMaven=$(params.mavenCentralRepo)
-    - -PtargetMaven=/workspace/git/framework/docker/repo
-    - -PjacocoEnabled=$(params.jacocoEnabled)
-    - -PisRelease=$(params.isRelease)
-    - publish
-    volumeMounts:
-    - name: gpgkey
-      mountPath: /opt/gradle/gradle-6.8.2/galasa.gpg
-      subPath: galasa.gpg
-    - name: gpggradle
-      mountPath: /opt/gradle/gradle-6.8.2/gradle.properties
-      subPath: gradle.properties
+ # - name: gradle-build
+  #  workingDir: /workspace/git/framework/galasa-parent
+   # image: $(params.dockerRepo)/galasadev/galasa-build
+    #command:
+    #- gradle
+    #- --no-daemon
+    #- --console 
+    #- plain
+    #- -PsourceMaven=$(params.mavenSourceRepo)
+    #- -PcentralMaven=$(params.mavenCentralRepo)
+    #- -PtargetMaven=/workspace/git/framework/docker/repo
+    #- -PjacocoEnabled=$(params.jacocoEnabled)
+    #- -PisRelease=$(params.isRelease)
+    #- publish
+    #volumeMounts:
+    #- name: gpgkey
+    #  mountPath: /opt/gradle/gradle-6.8.2/galasa.gpg
+    #  subPath: galasa.gpg
+    #- name: gpggradle
+    #  mountPath: /opt/gradle/gradle-6.8.2/gradle.properties
+    #  subPath: gradle.properties
 #
 #
 #

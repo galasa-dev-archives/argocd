@@ -1,0 +1,67 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: gradle-build
+spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+  params:
+  - name: imageName
+    type: string
+  - name: context
+    type: string
+  - name: baseRepo
+    type: string
+  - name: mavenCentralRepo
+    type: string
+  - name: mavenSourceRepo
+    type: string
+  - name: jacocoEnabled
+    type: string
+    default: "false"
+  - name: isRelease
+    type: string
+    default: "false"  
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}  
+  steps:
+  - name: gradle-build
+    workingDir: /workspace/git/$(params.context)
+    image: $(params.dockerRepo)/galasadev/galasa-build
+
+    # gradle build and publish to maven repo
+    command:
+    - gradle
+    - --no-daemon # 
+    - --console # plain console output - not pretty
+    - plain
+    - -PsourceMaven=$(params.mavenSourceRepo)
+    - -PcentralMaven=$(params.mavenCentralRepo)
+    - -PtargetMaven=/workspace/git/$(params.baseRepo)/docker/repo
+    - -PjacocoEnabled=$(params.jacocoEnabled)
+    - -PisRelease=$(params.isRelease)
+    - publish
+
+    # gradle build
+    #command:
+    #- gradle
+    #- --no-daemon
+    #- --console
+    #- plain
+    #- build
+
+    # only need this if publishing to artifact repo?
+    volumeMounts:
+    - mountPath: /opt/gradle/gradle-6.8.2/galasa.gpg
+      name: gpgkey
+      subPath: galasa.gpg
+    - mountPath: /opt/gradle/gradle-6.8.2/gradle.properties
+      name: gpggradle
+      subPath: gradle.properties
+
+    
