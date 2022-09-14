@@ -54,8 +54,6 @@ spec:
       value: framework  
     - name: mavenSourceRepo
       value: http://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/maven
-    - name: noPush
-      value: $(params.noPush)
     - name: jacocoEnabled
       value: $(params.jacocoEnabled)
     - name: isRelease
