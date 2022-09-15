@@ -22,6 +22,8 @@ spec:
     type: string  
   - name: dockerRepo
     type: string
+  - name: args
+    type: array  
   steps:
   - name: maven-build
     workingDir: /workspace/git/$(params.context)
@@ -29,10 +31,12 @@ spec:
     command:
     - mvn
     # D<xyz> defines system property
-    - -Dgpg.skip=$(params.gpgSkip)
-    - -Dgalasa.release.repo=file:/workspace/git/$(params.baseRepo)/docker/repo/
-    - -Dgalasa.source.repo=$(params.mavenSourceRepo)
-    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - [$params.args[*]]
+
+    #- -Dgpg.skip=$(params.gpgSkip)
+    #- -Dgalasa.release.repo=file:/workspace/git/$(params.baseRepo)/docker/repo/
+    #- -Dgalasa.source.repo=$(params.mavenSourceRepo)
+    #- -Dgalasa.central.repo=$(params.mavenCentralRepo)
     - --settings # points to settings xml file stated below
     - /workspace/git/$(params.baseRepo)/settings.xml
     - -B # batch mode - makes output logs cleaner 
