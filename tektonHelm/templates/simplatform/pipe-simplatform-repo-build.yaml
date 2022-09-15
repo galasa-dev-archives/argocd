@@ -40,21 +40,21 @@ spec:
      - name: output
        workspace: git-workspace
 
-  - name: get-commit
-    taskRef:
-      name: get-commit
-    runAfter: 
-    - clone-simplatform
-    workspaces:
-     - name: git-workspace
-       workspace: git-workspace  
+  #- name: get-commit
+  #  taskRef:
+  #    name: get-commit
+  #  runAfter: 
+  #  - clone-simplatform
+  #  workspaces:
+  #   - name: git-workspace
+  #     workspace: git-workspace  
 
 
   - name: maven-build
     taskRef:
       name: maven-build
     runAfter:
-    - get-commit     
+    - clone-simplatform    
     params:
     - name: context
       value: simplatform/galasa-simplatform-application
