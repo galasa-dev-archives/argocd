@@ -12,12 +12,12 @@ spec:
   params:
   - name: context
     type: string
-  - name: mavenCentralRepo
-    type: string
-  - name: mavenSourceRepo
-    type: string
-  - name: gpgSkip
-    type: string 
+  #- name: mavenCentralRepo
+  #  type: string
+  #- name: mavenSourceRepo
+  #  type: string
+  #- name: gpgSkip
+  #  type: string 
   - name: baseRepo
     type: string  
   - name: dockerRepo
