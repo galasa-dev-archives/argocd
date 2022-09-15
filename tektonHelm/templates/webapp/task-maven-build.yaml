@@ -31,17 +31,17 @@ spec:
     command:
     #- mvn
     # D<xyz> defines system property
-    - ["mvn", "$(params.args[*])"]
+    - ["mvn", "$(params.args[*])", "--settings /workspace/git/$(params.baseRepo)/settings.xml -B -e -fae deploy"]
 
     #- -Dgpg.skip=$(params.gpgSkip)
     #- -Dgalasa.release.repo=file:/workspace/git/$(params.baseRepo)/docker/repo/
     #- -Dgalasa.source.repo=$(params.mavenSourceRepo)
     #- -Dgalasa.central.repo=$(params.mavenCentralRepo)
-    - --settings # points to settings xml file stated below
-    - /workspace/git/$(params.baseRepo)/settings.xml
-    - -B # batch mode - makes output logs cleaner 
-    - -e # error messages
-    - -fae # fail at end - all non-impacted builds continue
-    - deploy # deploys final package to remote repo
+    #- --settings # points to settings xml file stated below
+    #- /workspace/git/$(params.baseRepo)/settings.xml
+    #- -B # batch mode - makes output logs cleaner 
+    #- -e # error messages
+    #- -fae # fail at end - all non-impacted builds continue
+    #- deploy # deploys final package to remote repo
 
   
