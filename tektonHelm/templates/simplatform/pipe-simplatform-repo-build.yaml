@@ -67,7 +67,7 @@ spec:
     - name: dockerRepo
       value: harbor-cicsk8s.hursley.ibm.com  
     - name: gpgSkip
-      value: "false"
+      value: "true"
     workspaces:
      - name: git-workspace
        workspace: git-workspace  
