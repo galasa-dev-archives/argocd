@@ -1,0 +1,26 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: get-commit
+spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+  params:
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+  
+  steps:
+  - name: get-commit
+    workingDir: /workspace/git/simplatform
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    script: |
+      #!/bin/sh
+      set +e
+      COMMIT="$(git log --format="%H" -n 1)"
+      echo $COMMIT > /workspace/git/simplatform/docker/simplatform.githash
+      echo commit is $COMMIT

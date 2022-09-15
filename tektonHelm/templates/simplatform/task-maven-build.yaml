@@ -1,0 +1,45 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: maven-build
+spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+  params:
+  - name: context
+    type: string
+  - name: mavenCentralRepo
+    type: string
+    default: "https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/"
+  - name: mavenSourceRepo
+    type: string
+    default: "https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/"
+  - name: gpgSkip
+    type: string 
+  - name: baseRepo
+    type: string  
+  - name: dockerRepo
+    type: string
+  steps:
+  - name: maven-build
+    workingDir: /workspace/git/$(params.context)
+    image: $(params.dockerRepo)/galasadev/galasa-build
+    command:
+    - mvn
+    # D<xyz> defines system property
+    - -Dgpg.skip=$(params.gpgSkip)
+    - -Dgalasa.release.repo=file:/workspace/git/$(params.baseRepo)/docker/repo/
+    - -Dgalasa.source.repo=$(params.mavenSourceRepo)
+    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+    - --settings # points to settings xml file stated below
+    - /workspace/git/$(params.baseRepo)/settings.xml
+    - -B # batch mode - makes output logs cleaner 
+    - -e # error messages
+    - -fae # fail at end - all non-impacted builds continue
+    - deploy # deploys final package to remote repo
+
+  

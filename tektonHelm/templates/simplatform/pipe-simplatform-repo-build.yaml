@@ -39,11 +39,45 @@ spec:
     workspaces:
      - name: output
        workspace: git-workspace
+
+  - name: get-commit
+    taskRef:
+      name: get-commit
+    runAfter: 
+    - clone-simplatform
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace  
+
+
+  - name: maven-build
+    taskRef:
+      name: maven-build
+    runAfter:
+    - get-commit     
+    params:
+    - name: context
+      value: simplatform/galasa-simplatform-application
+    - name: mavenSourceRepo
+      value: https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/
+    - name: mavenCentralRepo
+      value: https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/ 
+    - name: baseRepo
+      value: simplatform
+    - name: dockerRepo
+      value: harbor-cicsk8s.hursley.ibm.com  
+    - name: gpgSkip
+      value: "false"
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace  
+
+
   - name: simplatform
     taskRef:
       name: simplatform-repo-build
     runAfter:
-    - clone-simplatform
+    - maven-build
     params:
     - name: distBranch
       value: $(params.distBranch)
