@@ -53,7 +53,7 @@ spec:
       value: simplatform
     - name: dockerRepo
       value: harbor-cicsk8s.hursley.ibm.com  
-    - name: args
+    - name: build-args
       value:
         - "-Dgpg.skip=true"
         - "-Dgalasa.release.repo=file:/workspace/git/simplatfom/docker/repo/"
