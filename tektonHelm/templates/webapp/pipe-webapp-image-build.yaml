@@ -49,16 +49,10 @@ spec:
     params:
     - name: context
       value: simplatform/galasa-simplatform-application
-    #- name: mavenSourceRepo
-    #  value: https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/
-    #- name: mavenCentralRepo
-    #  value: https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/ 
     - name: baseRepo
       value: simplatform
     - name: dockerRepo
       value: harbor-cicsk8s.hursley.ibm.com  
-    #- name: gpgSkip
-    #  value: "true"
     - name: args
       value:
         - "-Dgpg.skip=true"

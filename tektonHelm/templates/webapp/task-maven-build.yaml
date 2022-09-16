@@ -12,17 +12,11 @@ spec:
   params:
   - name: context
     type: string
-  #- name: mavenCentralRepo
-  #  type: string
-  #- name: mavenSourceRepo
-  #  type: string
-  #- name: gpgSkip
-  #  type: string 
   - name: baseRepo
     type: string  
   - name: dockerRepo
     type: string
-  - name: args
+  - name: build-args
     type: array  
   steps:
   - name: maven-build
@@ -30,22 +24,15 @@ spec:
     image: $(params.dockerRepo)/galasadev/galasa-build
     command:
       - mvn
-      # D<xyz> defines system property
     args:
-      - $(params.args[*])
-      #- -Dgpg.skip=$(params.gpgSkip)
-      #- -Dgalasa.release.repo=file:/workspace/git/$(params.baseRepo)/docker/repo/
-      #- -Dgalasa.source.repo=$(params.mavenSourceRepo)
-      #- -Dgalasa.central.repo=$(params.mavenCentralRepo)
+      - $(params.build-args[*])
       - --settings # points to settings xml file stated below
       - /workspace/git/$(params.baseRepo)/settings.xml
       - -B # batch mode - makes output logs cleaner 
       - -e # error messages
       - -fae # fail at end - all non-impacted builds continue
-      - deploy # deploys final package to remote repo
+      - install # deploys final package to remote repo
 
-
-   #- ["mvn", "$(params.args[*])", "--settings /workspace/git/$(params.baseRepo)/settings.xml -B -e -fae deploy"]
     
 
   
