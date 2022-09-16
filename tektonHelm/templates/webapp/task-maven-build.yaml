@@ -31,7 +31,7 @@ spec:
       - -B # batch mode - makes output logs cleaner 
       - -e # error messages
       - -fae # fail at end - all non-impacted builds continue
-      - install # deploys final package to remote repo
+      - deploy # deploys final package to remote repo
 
     
 
