@@ -18,6 +18,8 @@ spec:
     type: string
   - name: build-args
     type: array  
+  - name: command
+    type: string  
   steps:
   - name: maven-build
     workingDir: /workspace/git/$(params.context)
@@ -31,7 +33,7 @@ spec:
       - -B # batch mode - makes output logs cleaner 
       - -e # error messages
       - -fae # fail at end - all non-impacted builds continue
-      - install # deploys final package to remote repo
+      - $(params.command) # deploys final package to remote repo
 
     
 
