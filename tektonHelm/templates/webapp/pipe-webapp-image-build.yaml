@@ -53,8 +53,8 @@ spec:
     #  value: https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/
     #- name: mavenCentralRepo
     #  value: https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/ 
-    #- name: baseRepo
-    #  value: simplatform
+    - name: baseRepo
+      value: simplatform
     - name: dockerRepo
       value: harbor-cicsk8s.hursley.ibm.com  
     #- name: gpgSkip
