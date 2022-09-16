@@ -12,12 +12,8 @@ spec:
   params:
   - name: context
     type: string
-  - name: baseRepo
-    type: string
-  - name: mavenCentralRepo
-    type: string
-  - name: mavenSourceRepo
-    type: string
+  - name: build-args
+    type: array
   - name: dockerRepo
     type: string
   steps:
@@ -28,13 +24,16 @@ spec:
     # gradle build and publish to maven repo
     command:
     - gradle
-    - --no-daemon # 
-    - --console # plain console output - not pretty
-    - plain
-    - -PsourceMaven=$(params.mavenSourceRepo)
-    - -PcentralMaven=$(params.mavenCentralRepo)
-    - -PtargetMaven=/workspace/git/$(params.baseRepo)/docker/repo
-    - publish
+
+    args:
+      - --no-daemon # 
+      - --console # plain console output - not pretty
+      - plain
+      - $(params.build-args[*])
+      #- -PsourceMaven=$(params.mavenSourceRepo)
+      #- -PcentralMaven=$(params.mavenCentralRepo)
+      #- -PtargetMaven=/workspace/git/$(params.baseRepo)/docker/repo
+      - publish
 
     # gradle build
     #command:
