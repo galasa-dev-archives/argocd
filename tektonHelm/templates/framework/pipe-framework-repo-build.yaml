@@ -58,6 +58,8 @@ spec:
         - "-PsourceMaven=http://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/maven"
         - "-PcentralMaven=https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/"
         - "-PtargetMaven=/workspace/git/framework/docker/repo"
+    - name: command
+      value: publish    
     workspaces:
      - name: git-workspace
        workspace: git-workspace   

@@ -16,6 +16,8 @@ spec:
     type: array
   - name: dockerRepo
     type: string
+  - name: command
+    type: string  
   steps:
   - name: gradle-build
     workingDir: /workspace/git/$(params.context)
@@ -33,7 +35,7 @@ spec:
       #- -PsourceMaven=$(params.mavenSourceRepo)
       #- -PcentralMaven=$(params.mavenCentralRepo)
       #- -PtargetMaven=/workspace/git/$(params.baseRepo)/docker/repo
-      - publish
+      - $(params.command)
 
     # gradle build
     #command:
