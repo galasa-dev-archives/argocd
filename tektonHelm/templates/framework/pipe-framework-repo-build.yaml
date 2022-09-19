@@ -42,11 +42,33 @@ spec:
     workspaces:
      - name: output
        workspace: git-workspace
+
+  - name: gradle-build
+    taskRef:
+      name: gradle-build
+    runAfter:
+    - clone-framework
+    params:
+    - name: context
+      value: framework/galasa-parent
+    - name: dockerRepo
+      value: harbor-cicsk8s.hursley.ibm.com     
+    - name: build-args
+      value:   
+        - "-PsourceMaven=http://galasadev-cicsk8s.hursley.ibm.com/$(params.distBranch)/maven/maven"
+        - "-PcentralMaven=https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/"
+        - "-PtargetMaven=/workspace/git/framework/docker/repo"
+    - name: command
+      value: publish    
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace   
+
   - name: framework
     taskRef:
       name: framework-repo-build
     runAfter:
-    - clone-framework
+    - gradle-build
     params:
     - name: distBranch
       value: $(params.distBranch)

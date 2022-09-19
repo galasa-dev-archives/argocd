@@ -1,0 +1,57 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: gradle-build
+spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+  params:
+  - name: context
+    type: string
+  - name: build-args
+    type: array
+  - name: dockerRepo
+    type: string
+  - name: command
+    type: string  
+  steps:
+  - name: gradle-build
+    workingDir: /workspace/git/$(params.context)
+    image: $(params.dockerRepo)/galasadev/galasa-build
+
+    # gradle build and publish to maven repo
+    command:
+    - gradle
+
+    args:
+      - --no-daemon # 
+      - --console # plain console output - not pretty
+      - plain
+      - $(params.build-args[*])
+      #- -PsourceMaven=$(params.mavenSourceRepo)
+      #- -PcentralMaven=$(params.mavenCentralRepo)
+      #- -PtargetMaven=/workspace/git/$(params.baseRepo)/docker/repo
+      - $(params.command)
+
+    # gradle build
+    #command:
+    #- gradle
+    #- --no-daemon
+    #- --console
+    #- plain
+    #- build
+
+    # only need this if publishing to artifact repo?
+    volumeMounts:
+    - mountPath: /opt/gradle/gradle-6.8.2/galasa.gpg
+      name: gpgkey
+      subPath: galasa.gpg
+    - mountPath: /opt/gradle/gradle-6.8.2/gradle.properties
+      name: gpggradle
+      subPath: gradle.properties
+
+    

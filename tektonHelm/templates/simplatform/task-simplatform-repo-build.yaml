@@ -25,30 +25,30 @@ spec:
     type: string
     default: ""
   steps:
-  - name: get-commit
-    workingDir: /workspace/git/simplatform
-    image: $(params.dockerRepo)/galasadev/galasa-build
-    script: |
-      #!/bin/sh
-      set +e
-      COMMIT="$(git log --format="%H" -n 1)"
-      echo $COMMIT > /workspace/git/simplatform/docker/simplatform.githash
-      echo commit is $COMMIT
-  - name: gradle-build-simplatform
-    workingDir: /workspace/git/simplatform/galasa-simplatform-application
-    image: $(params.dockerRepo)/galasadev/galasa-build
-    command:
-    - mvn
-    - -Dgpg.skip=true
-    - -Dgalasa.release.repo=file:/workspace/git/simplatform/docker/repo
-    - -Dgalasa.source.repo=$(params.managersSourceRepo)
-    - -Dgalasa.central.repo=$(params.mavenCentralRepo)
-    - --settings
-    - /workspace/git/simplatform/settings.xml
-    - -B
-    - -e
-    - -fae
-    - deploy
+  #- name: get-commit
+  #  workingDir: /workspace/git/simplatform
+  #  image: $(params.dockerRepo)/galasadev/galasa-build
+  #  script: |
+  #    #!/bin/sh
+  #    set +e
+  #    COMMIT="$(git log --format="%H" -n 1)"
+  #    echo $COMMIT > /workspace/git/simplatform/docker/simplatform.githash
+  #    echo commit is $COMMIT
+  #- name: gradle-build-simplatform
+  #  workingDir: /workspace/git/simplatform/galasa-simplatform-application
+  #  image: $(params.dockerRepo)/galasadev/galasa-build
+  #  command:
+  #  - mvn
+  #  - -Dgpg.skip=true
+  #  - -Dgalasa.release.repo=file:/workspace/git/simplatform/docker/repo
+  #  - -Dgalasa.source.repo=$(params.managersSourceRepo)
+  #  - -Dgalasa.central.repo=$(params.mavenCentralRepo)
+  #  - --settings
+  #  - /workspace/git/simplatform/settings.xml
+  #  - -B
+  #  - -e
+  #  - -fae
+  #  - deploy
   - name: gradle-build-simtests
     workingDir: /workspace/git/simplatform/galasa-simbank-tests
     image: $(params.dockerRepo)/galasadev/galasa-build
@@ -76,7 +76,7 @@ spec:
     - --context=/workspace/git/simplatform/docker
     - --destination=$(params.dockerRepo)/galasadev/galasa-maven-simplatform:$(params.distBranch)
     - $(params.noPush)
-    - --oci-layout-path=/workspace/git-simplaform/docker/image-digest
+    - --oci-layout-path=/workspace/git-simplatform/docker/image-digest
     - --skip-tls-verify
     - --skip-tls-verify-pull
     - --single-snapshot
@@ -97,7 +97,7 @@ spec:
     - --context=/workspace/git/simplatform/galasa-simplatform-application/galasa-simplatform-3270
     - --destination=$(params.dockerRepo)/galasadev/galasa-simplatform-amd64:$(params.distBranch)
     - $(params.noPush)
-    - --oci-layout-path=/workspace/git-simplaform/docker/image-digest
+    - --oci-layout-path=/workspace/git-simplatform/docker/image-digest
     - --skip-tls-verify
     - --skip-tls-verify-pull
     - --single-snapshot

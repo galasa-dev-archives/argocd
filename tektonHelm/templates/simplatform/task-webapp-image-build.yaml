@@ -1,0 +1,47 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: webapp-image-build
+spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+  params:
+  - name: distBranch
+    type: string
+  - name: dockerRepo
+    type: string
+    default: {{ .Values.dockerRegistry }}
+  - name: noPush
+    type: string
+    default: ""
+  steps:
+  - name: build-and-push-webapp-image
+    workingDir: /workspace/git/simplatform/galasa-simplatform-application/galasa-simplatform-webapp
+    image: $(params.dockerRepo)/common/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/creds/.docker
+    command:
+    - /kaniko/executor
+    - --dockerfile=./Dockerfile # path to Dockerfile (from workingDir)
+    - --context=/workspace/git/simplatform/galasa-simplatform-application/galasa-simplatform-webapp # directory containing Dockerfile which kaniko will use to build image
+    - --no-push
+    - --destination=$(params.dockerRepo)/galasadev/galasa-simplatform-application/simbank-webapp:$(params.distBranch) # where to push the image - should be ICR?
+    
+
+
+
+    
+    #- $(params.noPush) # ?
+    # extra stuff - not sure if needed?
+    #- --oci-layout-path=/workspace/git-simplatform/docker/image-digest # directory where oci image layout. used to track image built
+    #- --skip-tls-verify  # skip tls certificate validation when pushing
+    #- --skip-tls-verify-pull  # skip tls certificate validation when pulling
+    #- --single-snapshot # takes single snapshot of filesystem at end of build
+    #- --verbosity=info  # error logging?
+    #- --build-arg=dockerRepository=$(params.dockerRepo) # pass in docker repo at build time?
+    #- --build-arg=jdkImage=dockerhub/library/openjdk:11-jdk  # pass in java 11 at build time?

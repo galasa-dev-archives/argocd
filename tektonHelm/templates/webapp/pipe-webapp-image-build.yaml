@@ -1,0 +1,82 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: webapp-image-build-pipe
+spec:
+  workspaces:
+  - name: git-workspace
+  params:
+  - name: distBranch
+    type: string
+    default: {{ .Values.branch }}
+  - name: managersBranch
+    type: string
+    default: {{ .Values.managersBranch }}  
+  - name: refspec
+    type: string
+    default: +refs/heads/{{ .Values.branch }}:refs/heads/{{ .Values.branch }}  
+  - name: noPush
+    type: string
+    default: ""
+  tasks:
+  - name: clone-simplatform
+    taskRef: 
+      name: git-clone
+    params:
+    - name: url
+      value: https://github.com/galasa-dev/simplatform
+    - name: revision
+      value: $(params.distBranch)
+    - name: refspec
+      value: $(params.refspec)
+    - name: depth
+      value: "99999999"
+    - name: subdirectory
+      value: simplatform
+    workspaces:
+     - name: output
+       workspace: git-workspace
+
+
+  - name: maven-build
+    taskRef:
+      name: maven-build
+    runAfter:
+    - clone-simplatform    
+    params:
+    - name: context
+      value: simplatform/galasa-simplatform-application
+    - name: baseRepo
+      value: simplatform
+    - name: dockerRepo
+      value: harbor-cicsk8s.hursley.ibm.com  
+    - name: build-args
+      value:
+        - "-Dgpg.skip=true"
+        - "-Dgalasa.release.repo=file:/workspace/git/simplatfom/docker/repo/"
+        - "-Dgalasa.source.repo=https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/"
+        - "-Dgalasa.central.repo=https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/" 
+    - name: command
+      value: deploy    
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace       
+  
+  - name: build-webapp
+    taskRef:
+      name: docker-build
+    runAfter:
+    - maven-build 
+    params:
+    - name: imageName
+      value: harbor-cicsk8s.hursley.ibm.com/galasadev/galasa-simplatform-application/simbank-webapp:$(params.distBranch)
+    - name: context
+      value: simplatform/galasa-simplatform-application/galasa-simplatform-webapp
+    - name: dockerfilePath
+      value: simplatform/galasa-simplatform-application/galasa-simplatform-webapp/Dockerfile
+    workspaces:
+     - name: git-workspace
+       workspace: git-workspace  
