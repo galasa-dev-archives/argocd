@@ -28,8 +28,8 @@ spec:
       - mvn
     args:
       - $(params.build-args[*])
-      - --settings # points to settings xml file stated below
-      - /workspace/git/$(params.settingsPath)
+     # - --settings # points to settings xml file stated below
+     # - /workspace/git/$(params.settingsPath)
       - --batch-mode # batch mode - makes output logs cleaner 
       - --errors # error messages
       - --fail-at-end # fail at end - all non-impacted builds continue
