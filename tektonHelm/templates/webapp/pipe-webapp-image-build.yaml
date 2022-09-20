@@ -49,8 +49,8 @@ spec:
     params:
     - name: context
       value: simplatform/galasa-simplatform-application
-    - name: baseRepo
-      value: simplatform
+    - name: settingsPath
+      value: simplatform/settings.xml
     - name: dockerRepo
       value: harbor-cicsk8s.hursley.ibm.com  
     - name: build-args

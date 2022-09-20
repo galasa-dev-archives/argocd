@@ -12,7 +12,7 @@ spec:
   params:
   - name: context
     type: string
-  - name: baseRepo
+  - name: settingsPath
     type: string  
   - name: dockerRepo
     type: string
@@ -29,10 +29,10 @@ spec:
     args:
       - $(params.build-args[*])
       - --settings # points to settings xml file stated below
-      - /workspace/git/$(params.baseRepo)/settings.xml
-      - -B # batch mode - makes output logs cleaner 
-      - -e # error messages
-      - -fae # fail at end - all non-impacted builds continue
+      - /workspace/git/$(params.settingsPath)
+      - --batch-mode # batch mode - makes output logs cleaner 
+      - --errors # error messages
+      - --fail-at-end # fail at end - all non-impacted builds continue
       - $(params.command) # deploys final package to remote repo
 
     
