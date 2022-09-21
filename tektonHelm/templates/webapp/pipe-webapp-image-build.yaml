@@ -56,11 +56,11 @@ spec:
     - name: build-args
       value:
         - "-Dgpg.skip=true"
-       # - "-Dgalasa.release.repo=file:/workspace/git/simplatfom/docker/repo/"
-       # - "-Dgalasa.source.repo=https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/"
-       # - "-Dgalasa.central.repo=https://artifactory-cicsk8s.hursley.ibm.com/artifactory/maven-proxy/" 
+        - "-Dgalasa.release.repo=file:/workspace/git/simplatfom/docker/repo/"
+        - "-Dgalasa.source.repo= ttps://galasadev-cicsk8s.hursley.ibm.com/main/maven/obr/"
+        - "-Dgalasa.central.repo=https://repo.maven.apache.org/maven2" 
     - name: command
-      value: install    
+      value: deploy    
     workspaces:
      - name: git-workspace
        workspace: git-workspace       
