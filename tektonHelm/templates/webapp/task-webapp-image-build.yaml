@@ -63,6 +63,7 @@ spec:
     
     # push
     - --no-push
+    - --destination=harbor.galasa.dev/galasadev/webapp[:simbank-webapp]
     - --destination=$(params.dockerRepo)/galasadev/galasa-simplatform-application/simbank-webapp:$(params.distBranch) # where to push the image - should be ICR?
     #- --oci-layout-path=/workspace/git-simplatform/docker/image-digest # directory where oci image layout. used to track image built
     #- --skip-tls-verify  # skip tls certificate validation when pushing
