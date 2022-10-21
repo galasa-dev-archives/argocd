@@ -1,0 +1,20 @@
+#
+# Copyright contributors to the Galasa project 
+#
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: make
+spec:
+  workspaces:
+  - name: git-workspace
+    mountPath: /workspace/git
+  
+  steps:
+  - name: galasabld-build
+    
+    workingDir: /workspace/git/buildutils
+    image: docker.io/library/golang:latest
+    command:
+    - make
+    - all  
