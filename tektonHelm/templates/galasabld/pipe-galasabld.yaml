@@ -55,7 +55,7 @@ spec:
     - name: noPush
       value: "--no-push"
     - name: build-args
-      value: ""  
+      value: [""] 
     # - name: build-args
     #   value: 
     #     - "--build-arg=platform=linux-amd64"
