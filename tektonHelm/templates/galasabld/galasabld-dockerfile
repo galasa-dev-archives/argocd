@@ -3,12 +3,12 @@
 #
 FROM alpine
 
-ARG platform
+#ARG platform
 
 RUN addgroup galasa && \ 
     adduser -D -G galasa -h /galasa -s /bin/sh galasa 
 
-COPY bin/galasabld-${platform} /bin/galasabld
+COPY bin/galasabld-linux-amd64 /bin/galasabld
 RUN chmod +x /bin/galasabld
 
 WORKDIR /galasa
